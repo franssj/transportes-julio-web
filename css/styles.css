@@ -74,7 +74,7 @@
      js/main.js lo mide y lo actualiza; este valor sirve hasta que corre el JS */
   --header-h: calc(var(--fila-h) + var(--safe-top));
   --nav-offset: calc(var(--header-h) + 32px);   /* dónde cae el encabezado de cada sección al navegar */
-  --reveal-x: 20px;
+  --reveal-x: 16px;
   --logo-h: 40px;
 
   /* Franja de marca: como la del cartel del local. Solo arriba del footer */
@@ -90,7 +90,6 @@
     --header-alto: 64px;
     --fila-h: 48px;
     --logo-h: 48px;
-    --reveal-x: 32px;
     --section-y: clamp(96px, 12vw, 160px);
     --fs-h2: clamp(1.75rem, 1.4rem + 1.75vw, 2.5rem);
   }
@@ -581,18 +580,6 @@ h3 { font-size: var(--fs-h3); }
 .hero__shape--2 { display: none; fill: var(--carbon); }
 
 .hero__shape--3 { fill: var(--grafito); }
-
-.hero__shape {
-  animation: entrada-forma 900ms var(--curva) both;
-}
-
-.hero__shape--2 { animation-delay: 120ms; }
-.hero__shape--3 { animation-delay: 240ms; }
-
-@keyframes entrada-forma {
-  from { transform: translateX(110%); }
-  to { transform: translateX(0); }
-}
 
 @media (min-width: 48rem) {
   .hero__shapes { width: clamp(240px, 30vw, 520px); }
@@ -1151,8 +1138,6 @@ h3 { font-size: var(--fs-h3); }
 
 .why__item:nth-child(-n+2) { border-bottom: 1px solid var(--grafito); }
 
-.why__item.reveal.is-pending { transform: translateY(16px); }
-
 .why__num {
   max-width: none;
   color: var(--amarillo);
@@ -1172,8 +1157,6 @@ h3 { font-size: var(--fs-h3); }
 }
 
 .why__text a { color: inherit; }
-
-.why__cuenta { font-variant-numeric: tabular-nums; }
 
 @media (hover: hover) {
   .why__text a:hover { color: var(--blanco); }
@@ -2364,12 +2347,12 @@ textarea.field__input { min-height: 96px; resize: vertical; }
 /* 22. Animaciones ========================================================== */
 /* main.js agrega .is-pending solo debajo del pliegue. Sin JS no se oculta nada.
    Con data-stagger, main.js marca a los hijos como .reveal y define --i. */
-.reveal,
-.reveal--left,
-.reveal--right,
-.reveal--scale {
-  transition: opacity 700ms var(--curva), transform 700ms var(--curva);
-  transition-delay: calc(var(--i, 0) * 90ms);
+html .reveal,
+html .reveal--left,
+html .reveal--right,
+html .reveal--scale {
+  transition: opacity 500ms cubic-bezier(.25, .1, .25, 1), transform 500ms cubic-bezier(.25, .1, .25, 1);
+  transition-delay: calc(var(--i, 0) * 60ms);
 }
 
 .reveal.is-pending,
@@ -2377,7 +2360,7 @@ textarea.field__input { min-height: 96px; resize: vertical; }
 .reveal--right.is-pending,
 .reveal--scale.is-pending { opacity: 0; }
 
-.reveal.is-pending { transform: translateY(24px); }
+.reveal.is-pending { transform: translateY(12px); }
 .reveal--left.is-pending { transform: translateX(calc(var(--reveal-x) * -1)); }
 .reveal--right.is-pending { transform: translateX(var(--reveal-x)); }
 .reveal--scale.is-pending { transform: scale(.96); }
@@ -3124,6 +3107,30 @@ blockquote { text-wrap: pretty; }
 
   .service-card__img[src$="servicio-mudanza.webp"] { object-position: 28% center; }
 }
+
+/* Entradas: en mobile, 8px; y solo fade en las secciones grandes */
+@media (max-width: 47.99rem) {
+  .reveal.is-pending { transform: translateY(8px); }
+
+  .zona__tarjeta.reveal.is-pending,
+  .cotizador__layout.reveal.is-pending { transform: none; }
+}
+
+/* Los ítems entran dentro de una tarjeta que ya se mueve: solo fade, para no sumar dos desplazamientos */
+.zona__item.reveal.is-pending { transform: none; }
+
+/* Fotos: color neutro mientras cargan, en el mismo contenedor. Solo JS oculta la foto, así que sin JS se ve */
+.service-card__media,
+.fleet-card__media,
+.zone-block__media,
+.location__map { background: #E9E9E6; }
+
+.zona__fondo,
+.photo-band { background: #1B1D21; }
+
+img.img-carga { opacity: 0; }
+
+img.img-entra { transition: opacity 300ms ease; }
 
 /* Con reduced-motion, sin barra de lectura */
 @media (prefers-reduced-motion: reduce) {

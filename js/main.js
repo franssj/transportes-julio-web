@@ -305,7 +305,7 @@
       if (esMobile && grupo.hasAttribute('data-carrusel')) return;
       [...grupo.children].forEach((hijo, i) => {
         hijo.classList.add('reveal');
-        hijo.style.setProperty('--i', String(Math.min(i, 5)));
+        hijo.style.setProperty('--i', String(Math.min(i, 3)));   // 4 escalonados; del quinto en adelante, sin demora extra
       });
     });
 
@@ -313,16 +313,19 @@
       if (!e.isIntersecting) return;
       e.target.classList.remove('is-pending');
       reveal.unobserve(e.target);
-    }), { rootMargin: '0px 0px -15% 0px' });
+    }), { rootMargin: '0px 0px -8% 0px', threshold: 0 });
 
     $$('.reveal, .reveal--left, .reveal--right, .reveal--scale').forEach(el => {
       if (el.getBoundingClientRect().top < window.innerHeight) return;
       el.classList.add('is-pending');
       reveal.observe(el);
       // Terminada la entrada, sin demoras heredadas: :active tiene que responder enseguida.
-      el.addEventListener('transitionend', () => {
-        if (!el.classList.contains('is-pending')) el.classList.remove('reveal');
-      }, { once: true });
+      const alTerminar = e => {
+        if (e.target !== el || el.classList.contains('is-pending')) return;
+        el.classList.remove('reveal');
+        el.removeEventListener('transitionend', alTerminar);
+      };
+      el.addEventListener('transitionend', alTerminar);
     });
   }
 
@@ -533,31 +536,19 @@
     }
   }
 
-  /* ---------- Por qué elegirnos: los números cuentan desde 0, una sola vez ----------
-     Sin JS o con reduced-motion queda el valor final del HTML. */
-  const contadores = $$('[data-contar]');
-  if (contadores.length && hayObserver && !sinMovimiento) {
-    const DURACION_CUENTA = 800;
-
-    // Reemplaza el texto en cada cuadro. Hasta entrar en pantalla queda el valor final del HTML.
-    const contar = () => {
-      const inicio = window.performance.now();
-      const cuadro = ahora => {
-        const t = Math.min(Math.max(ahora - inicio, 0) / DURACION_CUENTA, 1);
-        const avance = 1 - (1 - t) ** 3;   // ease-out
-        contadores.forEach(el => { el.textContent = String(Math.round(Number(el.dataset.contar) * avance)); });
-        if (t < 1) window.requestAnimationFrame(cuadro);
+  /* ---------- Fotos con carga diferida: fade al terminar. Si ya estaba en caché, aparece sin animación ---------- */
+  if (!sinMovimiento) {
+    $$('img[loading="lazy"]').forEach(foto => {
+      if (foto.complete) return;
+      foto.classList.add('img-carga');
+      const mostrar = () => {
+        foto.classList.add('img-entra');
+        foto.classList.remove('img-carga');
+        window.setTimeout(() => foto.classList.remove('img-entra'), 350);
       };
-      contadores.forEach(el => { el.textContent = '0'; });
-      window.requestAnimationFrame(cuadro);
-    };
-
-    const vigiaCuenta = new IntersectionObserver(entradas => {
-      if (!entradas[entradas.length - 1].isIntersecting) return;
-      vigiaCuenta.disconnect();
-      contar();
-    }, { rootMargin: '0px 0px -15% 0px' });
-    vigiaCuenta.observe(contadores[0].closest('.why__list'));
+      foto.addEventListener('load', mostrar, { once: true });
+      foto.addEventListener('error', mostrar, { once: true });
+    });
   }
 
   /* ---------- Carruseles: una barra fina avanza con el scroll ---------- */

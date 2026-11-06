@@ -35,10 +35,10 @@ PENDIENTES.md                  Lo que falta confirmar o conseguir
 - **Mobile:** el home tiene que medir 8 pantallas de 667px o menos en 375px de ancho. Servicios, Vehículos y Opiniones son carruseles con barra de progreso, y Opiniones también en tablet. En "Cómo trabajamos" las descripciones se ven siempre y el camión sigue al dedo. Las secciones oscuras se apilan como hojas, con radio de 28px. Las clases `.solo-mobile` y `.solo-grande` alternan los textos cortos y largos.
 - **Horarios:** se cambian en un solo lugar, la constante `HORARIOS` de `main.js`. Cada página los toma con `data-horario`; `openingHoursSpecification`, en el JSON-LD, lleva el horario del local.
 - **WhatsApp fijo:** círculo de 60px desde 768px; debajo, píldora que se contrae a círculo después de 120px. Se oculta mientras se ve el cotizador y con el teclado del celular abierto.
-- **Animaciones:** clases `.reveal`, `.reveal--left`, `.reveal--right` y `.reveal--scale`; `data-stagger` en el padre anima a los hijos con 90ms de diferencia. `main.js` agrega `.is-pending` solo a lo que está debajo del pliegue, así que sin JS o con reduced-motion todo queda visible. Solo `transform` y `opacity`. Parallax solo desde 1024px, con `data-parallax`.
+- **Animaciones:** clases `.reveal`, `.reveal--left`, `.reveal--right` y `.reveal--scale`; `data-stagger` en el padre anima a los hijos con 60ms de diferencia, hasta 4 por grupo. Los títulos de sección y el hero no se animan; las fotos con carga diferida hacen un fade al cargar. `main.js` agrega `.is-pending` solo a lo que está debajo del pliegue, así que sin JS o con reduced-motion todo queda visible. Solo `transform` y `opacity`. Parallax solo desde 1024px, con `data-parallax`.
 - **Medidas:** lo que lee el layout (línea del menú, fila de links, parallax) se calcula en `medirTodo()` de `main.js`: al cargar, en resize, con las fuentes y si cambia el alto de la página. El camión mide por su cuenta, en `camion.js`. Durante el scroll solo se usan valores guardados.
 - **Camión:** `window.JulioCamion.crear()` es la única lógica, para "Cómo trabajamos" y el cotizador. Desde 768px, en "Cómo trabajamos" cada paso es un botón y cada descripción se revela cuando el camión frena. Sin JS se ven los 4 pasos encendidos, y con reduced-motion todas las descripciones, sin pulso ni indicios.
-- **Prohibido:** brillo que sigue al cursor, glows, degradados animados, efectos de brillo en botones. Los contadores animados, también, salvo el "8" y el "64" de "Por qué elegirnos".
+- **Prohibido:** brillo que sigue al cursor, glows, degradados animados, contadores animados, efectos de brillo en botones.
 - **Colores:** base carbón `#121316`. El amarillo `#F5C400` va en el botón "Solicitar presupuesto", las palabras clave sobre fondo oscuro, los puntos de las etiquetas, los números de "Cómo trabajamos" y de "Por qué elegirnos", el indicador del header, la barra de lectura, los tramos recorridos, los tildes, la franja de marca y las selecciones del cotizador. Nunca como texto sobre blanco.
 - **Franja de marca:** las diagonales del cartel del local, 6px, solo arriba del footer.
 - **Datos:** no se inventan. Lo que falta va como `[[PENDIENTE]]` o `[CONFIRMAR]` visible (`<mark class="pendiente">`) y se anota en `PENDIENTES.md`.
@@ -128,7 +128,7 @@ Activá HSTS recién cuando HTTPS funcione en el dominio y en todos sus subdomin
 
 - Pedir a Julio el link directo para dejar una opinión, desde su Perfil de Empresa: hoy "Dejanos tu opinión" abre la ficha.
 - Evaluar si se actualiza el nombre de la ficha de Google, que figura como "Fletes y Mudanzas Julio".
-- La nota (4,5) y las opiniones (64) están escritas a mano: si cambian en Google, actualizarlas en hero, Por qué elegirnos (incluido `data-contar`), Opiniones y JSON-LD.
+- La nota (4,5) y las opiniones (64) están escritas a mano: si cambian en Google, actualizarlas en hero, Por qué elegirnos, Opiniones y JSON-LD.
 - Revisar que no se lean patentes ni caras de terceros en las fotos.
 - Probar en un iPhone y en un Android reales, y enviar un pedido de prueba por WhatsApp.
 - Dar de alta el sitio y el `sitemap.xml` en Google Search Console.
