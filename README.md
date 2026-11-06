@@ -68,6 +68,7 @@ Cada imagen es un solo archivo y se reemplaza **pisándolo con el mismo nombre**
 | `veh-mercedes-1114.webp`, `veh-mercedes-playo.webp`, `veh-hino.webp`, `veh-dfm.webp`, `veh-ford-trailer.webp`, `veh-chevrolet.webp` | 1200×750 | 200 KB |
 | `servicio-interior.webp`, `servicio-guardamuebles.webp` | 1200×900 | 200 KB |
 | `servicio-mudanza.webp`, `servicio-flete.webp`, `servicio-muebles.webp`, `servicio-comercios.webp` | 1200×900 | 200 KB |
+| Versión `-600` de las 6 fotos de servicios y las 6 de vehículos (`servicio-*-600.webp`, `veh-*-600.webp`): al cambiar una tarjeta, reemplazar también la suya | 600 de ancho | 70 KB |
 | `banda-cierre.webp` | 1920×800 | 200 KB |
 | `local-fachada.webp` | 1200×900 | 200 KB |
 | `og-image.jpg` | 1200×630 | 200 KB |
