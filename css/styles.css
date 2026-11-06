@@ -2358,8 +2358,9 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   .solo-grande { display: none !important; }
 }
 
-/* Progreso de lectura, debajo del header */
+/* Progreso de lectura, debajo del header. Solo desde 768px */
 .barra-lectura {
+  display: none;
   position: absolute;
   right: 0;
   bottom: -2px;
@@ -2370,6 +2371,10 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   transform-origin: left center;
   pointer-events: none;
   will-change: transform;
+}
+
+@media (min-width: 48rem) {
+  .barra-lectura { display: block; }
 }
 
 /* Quiénes somos y los números: un solo bloque */

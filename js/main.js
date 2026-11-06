@@ -565,20 +565,31 @@
     }, { passive: true });
   });
 
-  /* ---------- Progreso de lectura ---------- */
+  /* ---------- Progreso de lectura: desde 768px. En mobile no mide ni escucha el scroll ---------- */
   const barraLectura = $('#barra-lectura');
   if (barraLectura && !sinMovimiento) {
+    const conLectura = window.matchMedia('(min-width: 48rem)');
     let recorrido = 1;
     let cuadro = 0;
     const pintar = () => { barraLectura.style.transform = `scaleX(${Math.min(window.scrollY / recorrido, 1)})`; };
-    alMedir.push(() => {
+    const medirLectura = () => {
+      if (!conLectura.matches) return;
       recorrido = Math.max(raiz.scrollHeight - window.innerHeight, 1);
       pintar();
-    });
-    window.addEventListener('scroll', () => {
+    };
+    const alScrollearLectura = () => {
       window.cancelAnimationFrame(cuadro);
       cuadro = window.requestAnimationFrame(pintar);
-    }, { passive: true });
+    };
+    const activarLectura = () => {
+      window.cancelAnimationFrame(cuadro);
+      if (conLectura.matches) window.addEventListener('scroll', alScrollearLectura, { passive: true });
+      else window.removeEventListener('scroll', alScrollearLectura);
+      medirLectura();
+    };
+    alMedir.push(medirLectura);
+    conLectura.addEventListener('change', activarLectura);
+    activarLectura();
   }
 
   /* ---------- Preguntas: en mobile, las 5 primeras a la vista ---------- */
