@@ -107,12 +107,31 @@
     return limpiarTexto(el.value, el.maxLength > 0 ? el.maxLength : 200);
   }
 
-  // Al salir del campo: primera letra en mayúscula; en el nombre, la de cada palabra. El resto queda como se escribió.
-  function capitalizar(el) {
-    var patron = el.id === 'cot-nombre' ? /(^|\s)(\p{Ll})/gu : /^(\s*)(\p{Ll})/u;
-    var corregido = el.value.replace(patron, function (todo, antes, letra) {
-      return antes + letra.toLocaleUpperCase('es-AR');
+  // Al salir del campo: primera letra en mayúscula. El resto queda como se escribió, y la referencia, entera.
+  // En el nombre, la de cada palabra, salvo las partículas que no van primeras: "Ana María de la Torre".
+  var PARTICULAS = ['de', 'del', 'la', 'las', 'los', 'y'];
+
+  function mayusculaInicial(texto) {
+    return texto.replace(/^\p{Ll}/u, function (letra) { return letra.toLocaleUpperCase('es-AR'); });
+  }
+
+  function corregirNombre(texto) {
+    var primera = true;
+    return texto.replace(/\S+/g, function (palabra) {
+      var esPrimera = primera;
+      primera = false;
+      var minuscula = palabra.toLocaleLowerCase('es-AR');
+      if (esPrimera || PARTICULAS.indexOf(minuscula) === -1) return mayusculaInicial(palabra);
+      // "De" pasa a "de"; lo escrito todo en mayúscula queda como está.
+      return palabra === mayusculaInicial(minuscula) ? minuscula : palabra;
     });
+  }
+
+  function capitalizar(el) {
+    if (/-referencia$/.test(el.id)) return false;
+    var corregido = el.id === 'cot-nombre'
+      ? corregirNombre(el.value)
+      : el.value.replace(/^(\s*)(\p{Ll})/u, function (todo, antes, letra) { return antes + letra.toLocaleUpperCase('es-AR'); });
     if (corregido === el.value) return false;
     el.value = corregido;
     return true;
