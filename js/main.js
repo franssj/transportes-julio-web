@@ -316,7 +316,8 @@
     }), { rootMargin: '0px 0px 10% 0px', threshold: 0 });
 
     $$('.reveal, .reveal--left, .reveal--right, .reveal--scale').forEach(el => {
-      if (el.getBoundingClientRect().top < window.innerHeight) return;
+      // El hero nunca se oculta, y tampoco lo que ya se ve al cargar.
+      if (el.closest('.hero') || el.getBoundingClientRect().top < window.innerHeight) return;
       el.classList.add('is-pending');
       reveal.observe(el);
       // Terminada la entrada, sin demoras heredadas: :active tiene que responder enseguida.

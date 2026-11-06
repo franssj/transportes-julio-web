@@ -64,6 +64,7 @@ Cada imagen es un solo archivo y se reemplaza **pisándolo con el mismo nombre**
 |---|---|---|
 | `hero.webp`, `hero-escobar.webp` | 1600×900 | 300 KB |
 | `hero-tigre.webp` | 1600×900 | 300 KB |
+| `hero-828.webp`, `hero-escobar-828.webp`, `hero-tigre-828.webp` (la versión del hero para celular: al cambiar un hero, reemplazar también la suya) | 828 de ancho | 80 KB |
 | `veh-mercedes-1114.webp`, `veh-mercedes-playo.webp`, `veh-hino.webp`, `veh-dfm.webp`, `veh-ford-trailer.webp`, `veh-chevrolet.webp` | 1200×750 | 200 KB |
 | `servicio-interior.webp`, `servicio-guardamuebles.webp` | 1200×900 | 200 KB |
 | `servicio-mudanza.webp`, `servicio-flete.webp`, `servicio-muebles.webp`, `servicio-comercios.webp` | 1200×900 | 200 KB |

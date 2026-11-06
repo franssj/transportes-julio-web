@@ -17,7 +17,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/apple-touch-icon.png">
   <link rel="manifest" href="/assets/img/favicon/site.webmanifest">
   <meta name="theme-color" content="#121316">
+  <link rel="preload" as="image" href="/assets/img/hero-escobar.webp" imagesrcset="/assets/img/hero-escobar-828.webp 828w, /assets/img/hero-escobar.webp 1600w" imagesizes="100vw" fetchpriority="high">
   <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-400.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/inter-700.woff2" crossorigin>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -223,8 +225,8 @@
   <main id="contenido">
     <!-- HERO -->
     <section id="inicio" class="hero" aria-labelledby="titulo-inicio">
-      <!-- FOTO: Mercedes-Benz 1517 cargado en Belén de Escobar. Se reemplaza pisando assets/img/hero-escobar.webp (1600×900). -->
-        <img class="hero__img" src="../assets/img/hero-escobar.webp" width="1600" height="900" fetchpriority="high" data-parallax="hero" alt="Camión Mercedes-Benz de Transportes Julio con carga en Belén de Escobar">
+      <!-- FOTO: Mercedes-Benz 1517 cargado en Belén de Escobar. Se reemplaza pisando assets/img/hero-escobar.webp (1600×900) y su versión -828 (828px de ancho). -->
+      <img class="hero__img" src="/assets/img/hero-escobar.webp" srcset="/assets/img/hero-escobar-828.webp 828w, /assets/img/hero-escobar.webp 1600w" sizes="100vw" width="1600" height="900" fetchpriority="high" decoding="async" data-parallax="hero" alt="Camión Mercedes-Benz de Transportes Julio con carga en Belén de Escobar">
       <div class="hero__overlay"></div>
       <svg class="hero__shapes" viewBox="0 0 520 220" width="520" height="220" aria-hidden="true" focusable="false">
         <polygon class="hero__shape hero__shape--1" points="150,220 250,60 400,60 300,220"/>
@@ -324,7 +326,7 @@
       <div class="zona__tarjeta reveal">
         <div class="zona__fondo">
         <!-- FOTO: Mercedes-Benz 1517 cargado en Belén de Escobar. Se reemplaza pisando assets/img/hero-escobar.webp (1600×900). -->
-        <img class="zona__img" src="../assets/img/hero-escobar.webp" width="1600" height="900" loading="lazy" decoding="async" alt="">
+        <img class="zona__img" src="../assets/img/hero-escobar.webp" srcset="/assets/img/hero-escobar-828.webp 828w, /assets/img/hero-escobar.webp 1600w" sizes="100vw" width="1600" height="900" loading="lazy" decoding="async" alt="">
           <div class="zona__overlay"></div>
         </div>
         <div class="zona__contenido">
