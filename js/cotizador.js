@@ -108,14 +108,14 @@
   }
 
   // Al salir del campo: primera letra en mayúscula. El resto queda como se escribió, y la referencia, entera.
-  // En el nombre, la de cada palabra, salvo las partículas que no van primeras: "Ana María de la Torre".
+  // En el nombre y la localidad, la de cada palabra, salvo las partículas que no van primeras: "Belén de Escobar".
   var PARTICULAS = ['de', 'del', 'la', 'las', 'los', 'y'];
 
   function mayusculaInicial(texto) {
     return texto.replace(/^\p{Ll}/u, function (letra) { return letra.toLocaleUpperCase('es-AR'); });
   }
 
-  function corregirNombre(texto) {
+  function corregirPalabras(texto) {
     var primera = true;
     return texto.replace(/\S+/g, function (palabra) {
       var esPrimera = primera;
@@ -129,8 +129,8 @@
 
   function capitalizar(el) {
     if (/-referencia$/.test(el.id)) return false;
-    var corregido = el.id === 'cot-nombre'
-      ? corregirNombre(el.value)
+    var corregido = ['cot-nombre', 'cot-origen', 'cot-destino'].indexOf(el.id) !== -1
+      ? corregirPalabras(el.value)
       : el.value.replace(/^(\s*)(\p{Ll})/u, function (todo, antes, letra) { return antes + letra.toLocaleUpperCase('es-AR'); });
     if (corregido === el.value) return false;
     el.value = corregido;
