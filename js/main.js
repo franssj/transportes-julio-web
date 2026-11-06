@@ -18,6 +18,7 @@
     sabado: '7:30 a 13 h',
     domingo: 'Cerrado',
     corto: 'Lun. a vie. 7:30 a 19 h · Sáb. 7:30 a 13 h',
+    frase: 'Trabajamos de lunes a viernes de 7:30 a 19 h. Los sábados, de 7:30 a 13 h.',
   };
   // Los mismos horarios, en minutos desde las 0 h: alimentan el "Abierto ahora". 0 es domingo.
   const HORARIO_LOCAL = { 1: [450, 1140], 2: [450, 1140], 3: [450, 1140], 4: [450, 1140], 5: [450, 1140], 6: [450, 780] };
@@ -73,6 +74,16 @@
     destino.focus({ preventScroll: true });
   };
 
+  // Un destino dentro de un bloque que todavía no entró: el transform correría la posición final del scroll.
+  const asentarEntrada = destino => {
+    const bloque = destino.closest('.is-pending');
+    if (!bloque) return;
+    bloque.style.transition = 'none';
+    bloque.classList.remove('is-pending');
+    void bloque.offsetWidth;
+    bloque.style.transition = '';
+  };
+
   document.addEventListener('click', e => {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     const link = e.target.closest ? e.target.closest('a[href]') : null;
@@ -86,6 +97,7 @@
     if (!esMismaPagina(link) || link.hash.length < 2) return;
     const destino = document.getElementById(link.hash.slice(1));
     if (!destino) return;
+    asentarEntrada(destino);
     enfocar(destino);
     marcarDesdeLink(destino.id);
   });
@@ -271,6 +283,7 @@
       const destino = document.getElementById(window.location.hash.slice(1));
       if (!destino) return;
       const ubicar = () => {
+        asentarEntrada(destino);
         fijarHeader();   // este ajuste puede ser hacia arriba: no tiene que volver a abrir el header
         destino.scrollIntoView({ behavior: 'instant', block: 'start' });
       };

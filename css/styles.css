@@ -1198,30 +1198,36 @@ h3 { font-size: var(--fs-h3); }
 .zona {
   position: relative;
   isolation: isolate;
-  padding-block: clamp(72px, 10vw, 128px);
+  /* Con 120px como mínimo, el panel nunca cae sobre el degradado de la foto */
+  padding-block: clamp(120px, 10vw, 128px);
   overflow: hidden;
-  background: var(--carbon);
+  /* Detrás del fundido: el color de la sección de arriba y el de la de abajo */
+  background: linear-gradient(180deg, var(--fondo) 120px, var(--blanco) calc(100% - 120px));
+}
+
+/* La foto y su overlay se funden con las secciones vecinas en los primeros y últimos 120px */
+.zona__fondo {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 120px, #000 calc(100% - 120px), transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 120px, #000 calc(100% - 120px), transparent 100%);
 }
 
 .zona__img {
   position: absolute;
-  z-index: -2;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   max-width: none;
   object-fit: cover;
-  filter: blur(2px);
+  filter: blur(3px) grayscale(40%) brightness(.7);
   transform: scale(1.03);   /* el desenfoque no deja bordes claros */
 }
 
-.zona__overlay {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(18, 19, 22, .92) 0%, rgba(18, 19, 22, .78) 100%);
-}
+.zona__overlay { position: absolute; inset: 0; background: rgba(18, 19, 22, .8); }
 
 .zona__ancla { max-width: none; height: 0; margin: 0; }
 
@@ -1256,7 +1262,7 @@ h3 { font-size: var(--fs-h3); }
 
 .zona__label::after { content: ""; flex: none; width: 40px; height: 1px; background: var(--amarillo); }
 
-.zona__title { color: var(--blanco); font-size: clamp(2.25rem, 1.7rem + 2.6vw, 3.5rem); line-height: 1.1; }
+.zona__title { color: var(--blanco); font-size: clamp(2rem, 1.4rem + 1.6vw, 2.75rem); line-height: 1.12; }
 
 .zona__title .kw { color: var(--amarillo); }
 
@@ -1264,7 +1270,8 @@ h3 { font-size: var(--fs-h3); }
 
 .zona__items {
   display: grid;
-  column-gap: var(--sp-5);
+  align-content: start;
+  column-gap: var(--sp-4);
   margin-top: var(--sp-4);
   border-top: 1px solid rgba(255, 255, 255, .08);
 }
@@ -1274,6 +1281,9 @@ h3 { font-size: var(--fs-h3); }
   padding: 20px 0 20px 32px;
   border-bottom: 1px solid rgba(255, 255, 255, .08);
 }
+
+/* Debajo de la última fila ya está la línea de Localidades */
+.zona__item:last-child { border-bottom: 0; }
 
 /* Guion amarillo fino */
 .zona__item::before {
@@ -1290,8 +1300,35 @@ h3 { font-size: var(--fs-h3); }
 
 .zona__item-text { margin-top: .25rem; color: var(--texto-oscuro); font-size: .9375rem; line-height: 1.5; }
 
-@media (min-width: 64rem) {
+/* Localidades, a todo el ancho del panel */
+.zona__localidades {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  scroll-margin-top: var(--nav-offset);
+}
+
+.zona__localidades-title { color: var(--blanco); font-size: 1.125rem; font-weight: 600; line-height: 1.4; letter-spacing: 0; }
+
+.zona__localidades-text { max-width: none; margin-top: .25rem; color: var(--texto-oscuro); font-size: .9375rem; line-height: 1.5; }
+
+.zona__localidades .chip { border-color: rgba(255, 255, 255, .12); background: rgba(255, 255, 255, .06); color: rgba(255, 255, 255, .85); }
+
+@media (min-width: 48rem) {
   .zona__items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .zona__item:nth-last-child(2) { border-bottom: 0; }
+}
+
+/* Desktop: 5 columnas de texto y 7 de ítems */
+@media (min-width: 64rem) {
+  .zona__panel { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--sp-4); }
+
+  .zona__texto { grid-column: 1 / 6; }
+
+  .zona__items { grid-column: 6 / -1; margin-top: 0; }
+
+  .zona__localidades { grid-column: 1 / -1; }
 }
 
 /* 12. Franjas de foto ====================================================== */
@@ -2601,7 +2638,6 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   .empresa,
   .section--dark,
   .m-oscura,
-  .zona,
   .site-footer { position: relative; z-index: 1; margin-top: -28px; overflow: hidden; border-radius: 28px 28px 0 0; }
 
   .empresa .section--dark { margin-top: 0; overflow: visible; border-radius: 0; background: none; }

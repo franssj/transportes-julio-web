@@ -21,7 +21,7 @@ PENDIENTES.md                  Lo que falta confirmar o conseguir
 
 **Secciones del home:** header, hero, `#nosotros` y `#por-que-elegirnos` (un solo bloque oscuro), `#servicios` (tarjetas y adicionales), `#vehiculos`, `#como-trabajamos`, `#resenas`, `#cotizador`, `#zonas`, `#preguntas`, `#contacto`, `#cierre`, footer, WhatsApp fijo.
 
-**Secciones de cada localidad:** header, hero, `#zona` (foto de fondo con panel de vidrio), `#localidades`, `#servicios`, `#resenas`, `#cotizador`, `#preguntas`, `#cierre`, footer, WhatsApp fijo.
+**Secciones de cada localidad:** header, hero, `#servicios`, `#zona` (foto de fondo con panel de vidrio, que incluye `#localidades`), `#resenas`, `#cotizador`, `#preguntas`, `#cierre`, footer, WhatsApp fijo.
 
 **Navegación:** el `id` de cada sección va en su encabezado (`.section__header`), no en la `<section>`. Una sola regla lo ubica: `scroll-margin-top: var(--nav-offset)`, que es la altura del header más 32px. `main.js` la mide con ResizeObserver y la guarda en `--header-h`; es siempre la altura del header ya scrolleado: 68px en desktop; debajo de 1024px, solo la fila de links (48px en tablet, 44px en mobile).
 
