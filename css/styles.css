@@ -3135,6 +3135,15 @@ img.img-carga { opacity: 0; }
 
 img.img-entra { transition: opacity 300ms ease; }
 
+/* Lo que está al final no se dibuja hasta acercarse. Solo acá: en las secciones de arriba de un destino
+   del menú, la altura estimada hace caer las anclas lejos. El cotizador tampoco: perdería su barra fija */
+main > section:has(#contacto),
+main > .photo-band--cierre,
+.site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}
+
 /* Con reduced-motion, sin barra de lectura */
 @media (prefers-reduced-motion: reduce) {
   .barra-lectura { display: none; }
