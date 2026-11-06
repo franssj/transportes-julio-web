@@ -313,7 +313,7 @@
       if (!e.isIntersecting) return;
       e.target.classList.remove('is-pending');
       reveal.unobserve(e.target);
-    }), { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+    }), { rootMargin: '0px 0px 10% 0px', threshold: 0 });
 
     $$('.reveal, .reveal--left, .reveal--right, .reveal--scale').forEach(el => {
       if (el.getBoundingClientRect().top < window.innerHeight) return;
