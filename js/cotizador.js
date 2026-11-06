@@ -634,11 +634,42 @@
     });
   }
 
+  /* Barra fija de mobile: solo el CSS de mobile la saca del flujo; sin JS queda debajo del formulario.
+     Se ve mientras el formulario ocupa la zona entre la mitad de la pantalla (o el header, si está más
+     abajo) y la propia barra. Al bajar se oculta cuando el final del formulario sube de la mitad, porque
+     debajo ya se ve otra sección; al subir, apenas el formulario queda por debajo de la barra. */
   var navegacion = form.querySelector('.cotizador__nav');
+  var cabecera = document.getElementById('site-header');
+  var vigiaBarra = null;
+  var cuadroBarra = 0;
+
+  function vigilarBarra() {
+    var ventana = window.visualViewport;
+    var alto = ventana ? ventana.height : window.innerHeight;
+    var inferior = ventana ? window.innerHeight - ventana.height - ventana.offsetTop : 0;
+    var debajo = parseFloat(window.getComputedStyle(navegacion).bottom) || 0;
+    var arriba = Math.max(cabecera ? cabecera.getBoundingClientRect().bottom : 0, alto / 2);
+    var abajo = navegacion.offsetHeight + debajo + Math.max(inferior, 0);
+
+    if (vigiaBarra) vigiaBarra.disconnect();
+    vigiaBarra = new IntersectionObserver(function (entradas) {
+      var visible = entradas[entradas.length - 1].isIntersecting;
+      navegacion.classList.toggle('is-fija', visible);
+      document.dispatchEvent(new CustomEvent('julio:barra-cotizador', { detail: visible }));
+    }, { rootMargin: '-' + Math.round(arriba) + 'px 0px -' + Math.round(abajo) + 'px 0px', threshold: 0 });
+    vigiaBarra.observe(form);
+  }
+
+  function pedirVigia() {
+    window.cancelAnimationFrame(cuadroBarra);
+    cuadroBarra = window.requestAnimationFrame(vigilarBarra);
+  }
+
   if (navegacion && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (entradas) {
-      navegacion.classList.toggle('is-fija', entradas[entradas.length - 1].isIntersecting);
-    }).observe(form);
+    navegacion.classList.add('cotizador__nav--barra');
+    vigilarBarra();
+    window.addEventListener('resize', pedirVigia, { passive: true });
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', pedirVigia, { passive: true });
   }
   if (navegacion && window.visualViewport) {
     window.visualViewport.addEventListener('resize', function () {

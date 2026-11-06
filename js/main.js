@@ -30,7 +30,7 @@
 
   /* ---------- Header y WhatsApp según el scroll ----------
      Al bajar, el header se mete y deja visible solo la fila de links (en pantallas sin menú completo);
-     al subir, vuelve entero. El botón de WhatsApp se contrae después de 600px. */
+     al subir, vuelve entero. El botón de WhatsApp se contrae después de 120px. */
   const header = $('#site-header');
   const filaLinks = $('.site-row');
   const flotante = $('#whatsapp-float');
@@ -43,7 +43,7 @@
       const y = window.scrollY;
       const scrolleado = y > 8;
       header.classList.toggle('is-scrolled', scrolleado);
-      if (flotante) flotante.classList.toggle('is-compact', y > 600);
+      if (flotante) flotante.classList.toggle('is-compact', y > 120);
 
       if (marcaFijada) { ultimoY = y; return; }
       if (y <= 80) { compactar(false); ultimoY = y; return; }
@@ -645,10 +645,21 @@
 
   /* ---------- WhatsApp fijo: se oculta con el cotizador en pantalla y con el teclado del celular abierto ---------- */
   const cotizador = $('.cotizador');
+  // En mobile manda la barra fija del cotizador: la píldora vuelve apenas la barra se oculta.
   if (flotante && cotizador && hayObserver) {
+    const conBarra = window.matchMedia('(max-width: 47.99rem)');
+    let seccionVisible = false;
+    let barraVisible = false;
+    const revisarFlotante = () => flotante.classList.toggle('is-hidden', conBarra.matches ? barraVisible : seccionVisible);
     new IntersectionObserver(entradas => {
-      flotante.classList.toggle('is-hidden', entradas[entradas.length - 1].isIntersecting);
+      seccionVisible = entradas[entradas.length - 1].isIntersecting;
+      revisarFlotante();
     }).observe(cotizador);
+    document.addEventListener('julio:barra-cotizador', e => {
+      barraVisible = e.detail;
+      revisarFlotante();
+    });
+    conBarra.addEventListener('change', revisarFlotante);
   }
   if (flotante && window.visualViewport) {
     const revisarTeclado = () => {
