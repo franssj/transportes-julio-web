@@ -65,7 +65,6 @@ Cada imagen es un solo archivo y se reemplaza **pisándolo con el mismo nombre**
 | `veh-mercedes-1114.webp`, `veh-mercedes-playo.webp`, `veh-hino.webp`, `veh-dfm.webp`, `veh-ford-trailer.webp`, `veh-chevrolet.webp` | 1200×750 | 200 KB |
 | `servicio-interior.webp`, `servicio-guardamuebles.webp` | 1200×900 | 200 KB |
 | `servicio-mudanza.webp`, `servicio-flete.webp`, `servicio-muebles.webp`, `servicio-comercios.webp` | 1200×900 | 200 KB |
-| `trabajo-1.webp` a `trabajo-4.webp` (hoy no se muestran) | 1200×900 | 200 KB |
 | `banda-elegirnos.webp` (hoy no se muestra) | 1600×750 | 200 KB |
 | `banda-cierre.webp` | 1920×800 | 200 KB |
 | `local-fachada.webp` | 1200×900 | 200 KB |
@@ -130,6 +129,5 @@ Activá HSTS recién cuando HTTPS funcione en el dominio y en todos sus subdomin
 - Evaluar si se actualiza el nombre de la ficha de Google, que figura como "Fletes y Mudanzas Julio".
 - La nota (4,5) y las opiniones (64) están escritas a mano: si cambian en Google, actualizarlas en hero, Por qué elegirnos (incluido `data-contar`), Opiniones y JSON-LD.
 - Revisar que no se lean patentes ni caras de terceros en las fotos.
-- `trabajo-3.webp` muestra el cartel de Hospital Austral y `trabajo-2.webp` el nombre de un edificio. Hoy no se usan: si se suman, confirmar que se pueda.
 - Probar en un iPhone y en un Android reales, y enviar un pedido de prueba por WhatsApp.
 - Dar de alta el sitio y el `sitemap.xml` en Google Search Console.
