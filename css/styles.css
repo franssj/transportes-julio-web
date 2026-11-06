@@ -75,7 +75,7 @@
   --header-h: calc(var(--fila-h) + var(--safe-top));
   --nav-offset: calc(var(--header-h) + 32px);   /* dónde cae el encabezado de cada sección al navegar */
   --reveal-x: 16px;
-  --logo-h: 40px;
+  --logo-h: 44px;
 
   /* Franja de marca: como la del cartel del local. Solo arriba del footer */
   --franja-marca: repeating-linear-gradient(135deg, var(--amarillo) 0 10px, var(--carbon) 10px 20px);
@@ -89,7 +89,7 @@
     --gutter: max(48px, env(safe-area-inset-left), env(safe-area-inset-right));
     --header-alto: 64px;
     --fila-h: 48px;
-    --logo-h: 48px;
+    --logo-h: 52px;
     --section-y: clamp(96px, 12vw, 160px);
     --fs-h2: clamp(1.75rem, 1.4rem + 1.75vw, 2.5rem);
   }
@@ -101,7 +101,7 @@
     --header-alto: 84px;
     --header-compacto: 68px;
     --fila-h: 0px;
-    --logo-h: 56px;
+    --logo-h: 64px;
     --header-full: calc(var(--header-alto) + var(--safe-top));
     --header-h: calc(var(--header-compacto) + var(--safe-top));
   }
@@ -389,7 +389,7 @@ h3 { font-size: var(--fs-h3); }
 /* El logo nunca se recorta: alto fijo, ancho automático y sin límites en su contenedor */
 .site-header__logo img { width: auto; max-width: none; height: var(--logo-h); object-fit: contain; }
 
-.site-footer__logo { width: auto; max-width: none; height: 56px; object-fit: contain; }
+.site-footer__logo { width: auto; max-width: none; height: 120px; object-fit: contain; }
 
 .site-footer__logo { object-position: left center; }
 
@@ -517,7 +517,7 @@ h3 { font-size: var(--fs-h3); }
 }
 
 @media (min-width: 64rem) {
-  .site-header.is-scrolled { --logo-h: 46px; }
+  .site-header.is-scrolled { --logo-h: 52px; }
 
   .site-header__inner { gap: 0; transition: height 200ms ease; }
   .site-header.is-scrolled .site-header__inner { height: var(--header-compacto); }
@@ -2841,7 +2841,7 @@ html .reveal--scale {
   /* Footer compacto */
   .site-footer { padding-block: var(--sp-4) var(--sp-2); }
 
-  .site-footer__logo { height: 40px; }
+  .site-footer__logo { height: 96px; }
 
   .site-footer__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-2); }
 
@@ -3144,46 +3144,25 @@ main > .photo-band--cierre,
   contain-intrinsic-size: auto 480px;
 }
 
-/* Logo completo en el hero. Mobile y tablet: centrado, arriba del título */
-.hero__logo { display: block; width: fit-content; margin-inline: auto; }
-
-.hero__logo img { display: block; width: auto; max-width: none; height: 140px; }
-
-.hero__texto { min-width: 0; }
-
-@media (max-width: 47.99rem) {
-  .hero__logo { margin-bottom: var(--sp-1); }
-}
-
-@media (min-width: 48rem) {
-  .hero__logo { margin-bottom: var(--sp-3); }
-
-  .hero__logo img { height: 200px; }
-}
-
-/* Celular en horizontal: el logo no puede ocupar media pantalla */
-@media (max-height: 500px) and (orientation: landscape) and (max-width: 63.99rem) {
-  .hero__logo img { height: 96px; }
-}
-
-/* Desktop: contenido a la izquierda y logo a la derecha */
-@media (min-width: 64rem) {
-  .hero__content { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: var(--sp-5); }
-
-  .hero__logo { grid-column: 2; grid-row: 1; margin: 0; }
-
-  .hero__logo img { height: clamp(380px, 29vw, 420px); filter: drop-shadow(0 12px 32px rgba(0, 0, 0, .5)); }
-
-  .hero__texto { grid-column: 1; grid-row: 1; }
-}
-
 /* Mobile: la altura estimada, cerca de la real, para que la página no cambie de largo al llegar */
 @media (max-width: 47.99rem) {
   main > section:has(#contacto) { contain-intrinsic-size: auto 560px; }
 
   main > .photo-band--cierre { contain-intrinsic-size: auto 280px; }
 
-  .site-footer { contain-intrinsic-size: auto 300px; }
+  .site-footer { contain-intrinsic-size: auto 350px; }
+}
+
+/* Header de 1024 a 1279px: logo de 56px, para que entren los links y el botón */
+@media (min-width: 64rem) and (max-width: 79.99rem) {
+  :root { --logo-h: 56px; }
+}
+
+/* A 1100px o menos, tampoco alcanza: un poco menos de separación entre los links */
+@media (min-width: 64rem) and (max-width: 68.74rem) {
+  .site-nav__list { gap: 24px; }
+
+  .site-header__cta { margin-left: 24px; }
 }
 
 /* Con reduced-motion, sin barra de lectura */
