@@ -2521,6 +2521,9 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   .fleet { gap: var(--sp-3); padding-block: 0; }
 }
 
+/* Nota debajo de la grilla de vehículos */
+.fleet__nota { margin-top: var(--sp-2); color: var(--gris-texto); font-size: 13px; }
+
 /* Barra de progreso de los carruseles */
 .carrusel-barra { height: 3px; overflow: hidden; border-radius: 2px; background: var(--borde); }
 
