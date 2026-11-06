@@ -22,7 +22,7 @@
 
 Reemplazar `[[URL_WEB]]` por la dirección definitiva, sin barra final, buscando en todo el proyecto.
 
-En el lanzamiento, reemplazar también `https://transportes-julio-web.panefrancisco23.workers.dev` por el dominio final: es la dirección provisoria de `og:url`, `og:image` y `twitter:image` en las 4 páginas.
+En el lanzamiento, reemplazar también `https://transportes-julio-web.kharv.workers.dev` por el dominio final: es la dirección provisoria de `og:url`, `og:image` y `twitter:image` en las 4 páginas.
 
 | Archivo | Dónde |
 |---|---|
