@@ -752,7 +752,7 @@
 
   if (navegacion && 'IntersectionObserver' in window) {
     navegacion.classList.add('cotizador__nav--barra');
-    vigilarBarra();
+    window.requestAnimationFrame(function () { window.requestAnimationFrame(vigilarBarra); });
     window.addEventListener('resize', pedirVigia, { passive: true });
     if (window.visualViewport) window.visualViewport.addEventListener('resize', pedirVigia, { passive: true });
   }

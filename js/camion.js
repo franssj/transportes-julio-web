@@ -89,7 +89,8 @@
         espera = setTimeout(llegar, ms);
       });
 
-      medir();
+      // Primera medición, después del primer pintado
+      window.requestAnimationFrame(() => window.requestAnimationFrame(medir));
       window.addEventListener('resize', medir, { passive: true });
       window.addEventListener('load', medir);
       if (document.fonts) document.fonts.ready.then(medir);
@@ -100,6 +101,7 @@
         irA(i) {
           indice = i;
           alFinal = false;
+          if (!paradas.length) return Promise.resolve();   // todavía sin medir: medir() lo ubica en esta parada
           return viajar(paradas[i], typeof duracion === 'function' ? duracion() : duracion);
         },
         irAlFinal() {

@@ -30,6 +30,8 @@
   const ZONA_HORARIA = 'America/Argentina/Buenos_Aires';
   const hayObserver = 'IntersectionObserver' in window;
   const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Lo que lee el layout espera al primer pintado: así la página se ve antes de calcular nada.
+  const despuesDelPintado = fn => window.requestAnimationFrame(() => window.requestAnimationFrame(fn));
   let marcaFijada = false;   // mientras dura un scroll iniciado por un link
 
   /* ---------- Header y WhatsApp según el scroll ----------
@@ -38,7 +40,7 @@
   const header = $('#site-header');
   const filaLinks = $('.site-row');
   const flotante = $('#whatsapp-float');
-  let ultimoY = window.scrollY;
+  let ultimoY = 0;
 
   const compactar = si => { if (header) header.classList.toggle('is-compact', si); };
 
@@ -55,8 +57,11 @@
       compactar(y > ultimoY);
       ultimoY = y;
     };
-    compactar(window.scrollY > 80);
-    alScrollear();
+    despuesDelPintado(() => {
+      ultimoY = window.scrollY;
+      compactar(ultimoY > 80);
+      alScrollear();
+    });
     window.addEventListener('scroll', alScrollear, { passive: true });
   }
 
@@ -290,8 +295,11 @@
         fijarHeader();   // este ajuste puede ser hacia arriba: no tiene que volver a abrir el header
         destino.scrollIntoView({ behavior: 'instant', block: 'start' });
       };
-      if (document.fonts) document.fonts.ready.then(ubicar);
-      else ubicar();
+      // Después del primer pintado: recién ahí se piden las fuentes, y fonts.ready espera a que lleguen.
+      despuesDelPintado(() => {
+        if (document.fonts) document.fonts.ready.then(ubicar);
+        else ubicar();
+      });
     });
   }
 
@@ -315,7 +323,7 @@
       reveal.unobserve(e.target);
     }), { rootMargin: '0px 0px 10% 0px', threshold: 0 });
 
-    $$('.reveal, .reveal--left, .reveal--right, .reveal--scale').forEach(el => {
+    despuesDelPintado(() => $$('.reveal, .reveal--left, .reveal--right, .reveal--scale').forEach(el => {
       // El hero nunca se oculta, y tampoco lo que ya se ve al cargar.
       if (el.closest('.hero') || el.getBoundingClientRect().top < window.innerHeight) return;
       el.classList.add('is-pending');
@@ -327,7 +335,7 @@
         el.removeEventListener('transitionend', alTerminar);
       };
       el.addEventListener('transitionend', alTerminar);
-    });
+    }));
   }
 
   /* ---------- Parallax de fotos, solo en desktop ----------
@@ -593,10 +601,12 @@
       window.cancelAnimationFrame(cuadro);
       if (conLectura.matches) window.addEventListener('scroll', alScrollearLectura, { passive: true });
       else window.removeEventListener('scroll', alScrollearLectura);
-      medirLectura();
     };
     alMedir.push(medirLectura);
-    conLectura.addEventListener('change', activarLectura);
+    conLectura.addEventListener('change', () => {
+      activarLectura();
+      medirLectura();
+    });
     activarLectura();
   }
 
@@ -719,8 +729,8 @@
     window.addEventListener('focus', () => marco.classList.remove('is-focused'));
   }
 
-  /* ---------- Primera medición y cuándo repetirla ---------- */
-  medirTodo();
+  /* ---------- Primera medición, después del primer pintado, y cuándo repetirla ---------- */
+  despuesDelPintado(medirTodo);
   window.addEventListener('resize', pedirMedicion, { passive: true });
   window.addEventListener('load', pedirMedicion);
   if (document.fonts) document.fonts.ready.then(pedirMedicion);
