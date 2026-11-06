@@ -163,8 +163,7 @@
     };
   }
 
-  function reglaAcceso(lado, mensaje) {
-    var nombre = lado + '-acceso';
+  function reglaRadio(nombre, mensaje) {
     return {
       error: 'error-' + nombre,
       campos: function () { return radios(nombre); },
@@ -209,16 +208,16 @@
     3: [
       reglaObligatorio('cot-origen', 'error-origen', 'Indicá la localidad de origen.'),
       reglaObligatorio('cot-origen-direccion', 'error-origen-direccion', 'Ingresá la calle y la altura.'),
-      reglaSelect('cot-origen-tipo', 'error-origen-tipo', 'Seleccioná el tipo de propiedad de origen.'),
-      reglaSelect('cot-origen-piso', 'error-origen-piso', 'Seleccioná el piso de origen.'),
-      reglaAcceso('origen', 'Seleccioná el tipo de acceso en el origen.'),
-      soloSi(esGuardado, reglaSelect('cot-tiempo', 'error-tiempo', 'Indicá por cuántos meses necesitás la baulera.')),
+      reglaRadio('origen-tipo', 'Seleccioná el tipo de propiedad de origen.'),
+      reglaRadio('origen-piso', 'Seleccioná el piso de origen.'),
+      reglaRadio('origen-acceso', 'Seleccioná el tipo de acceso en el origen.'),
+      soloSi(esGuardado, reglaRadio('tiempo', 'Indicá por cuántos meses necesitás la baulera.')),
       soloSi(conDestino, reglaObligatorio('cot-destino', 'error-destino', 'Indicá la localidad de destino.')),
       soloSi(conDestino, reglaObligatorio('cot-destino-direccion', 'error-destino-direccion', 'Ingresá la calle y la altura.')),
       soloSi(esInterior, reglaSelect('cot-destino-provincia', 'error-destino-provincia', 'Seleccioná la provincia de destino.')),
-      soloSi(conDestino, reglaSelect('cot-destino-tipo', 'error-destino-tipo', 'Seleccioná el tipo de propiedad de destino.')),
-      soloSi(conDestino, reglaSelect('cot-destino-piso', 'error-destino-piso', 'Seleccioná el piso de destino.')),
-      soloSi(conDestino, reglaAcceso('destino', 'Seleccioná el tipo de acceso en el destino.'))
+      soloSi(conDestino, reglaRadio('destino-tipo', 'Seleccioná el tipo de propiedad de destino.')),
+      soloSi(conDestino, reglaRadio('destino-piso', 'Seleccioná el piso de destino.')),
+      soloSi(conDestino, reglaRadio('destino-acceso', 'Seleccioná el tipo de acceso en el destino.'))
     ],
     4: [
       {
@@ -320,8 +319,14 @@
   }
 
   function irAlPaso(paso) {
+    var clase = paso > pasoActual ? 'entra-derecha' : 'entra-izquierda';
     pasoActual = paso;
     renderizarPaso();
+    var visible = form.querySelector('.cotizador-step[data-step="' + pasoActual + '"]');
+    if (visible) {
+      visible.classList.remove('entra-derecha', 'entra-izquierda');
+      visible.classList.add(clase);
+    }
     enfocarTituloDelPaso();
   }
 
@@ -367,7 +372,7 @@
 
   // En planta baja se sugiere el acceso directo, si todavía no se eligió otro; se puede cambiar.
   function sugerirAcceso(lado) {
-    if (valorCampo('cot-' + lado + '-piso') !== 'pb' || valorRadio(lado + '-acceso')) return;
+    if (valorRadio(lado + '-piso') !== 'pb' || valorRadio(lado + '-acceso')) return;
     var directo = form.querySelector('input[name="' + lado + '-acceso"][value="directo"]');
     if (directo) directo.checked = true;
   }
@@ -375,7 +380,7 @@
   // Por escalera, con piso 1 o más, se avisa que tiene un costo adicional.
   function avisarEscalera(lado) {
     var aviso = campo('aviso-' + lado + '-escalera');
-    var piso = valorCampo('cot-' + lado + '-piso');
+    var piso = valorRadio(lado + '-piso');
     if (aviso) aviso.hidden = !(valorRadio(lado + '-acceso') === 'escalera' && piso && piso !== 'pb');
   }
 
@@ -425,8 +430,8 @@
     var referencia = textoDeCampo('cot-' + lado + '-referencia');
     sumar(etiqueta, [lugar, referencia ? '(' + referencia + ')' : ''].filter(Boolean).join(' '));
     if (lado === 'destino' && esInterior()) sumar('Provincia', valorCampo('cot-destino-provincia'));
-    sumar('Tipo de propiedad en ' + lado, TIPOS[valorCampo('cot-' + lado + '-tipo')]);
-    sumar('Piso en ' + lado, PISOS[valorCampo('cot-' + lado + '-piso')]);
+    sumar('Tipo de propiedad en ' + lado, TIPOS[valorRadio(lado + '-tipo')]);
+    sumar('Piso en ' + lado, PISOS[valorRadio(lado + '-piso')]);
     sumar('Acceso en ' + lado, ACCESOS[valorRadio(lado + '-acceso')]);
 
     return lineas;
@@ -457,7 +462,7 @@
 
     lineas = lineas.concat(lineasDeLugar('Origen', 'origen'));
     if (conDestino()) lineas = lineas.concat(lineasDeLugar('Destino', 'destino'));
-    if (esGuardado()) sumar('Tiempo de guardado', TIEMPOS[valorCampo('cot-tiempo')]);
+    if (esGuardado()) sumar('Tiempo de guardado', TIEMPOS[valorRadio('tiempo')]);
 
     sumar('Fecha', fechaParaMensaje(valorCampo('cot-fecha')));
     if (esFechaCercana()) sumar('Urgente', 'sí');
@@ -579,8 +584,8 @@
 
   form.addEventListener('change', function (evento) {
     if (evento.target.name === 'servicio') sincronizarServicio();
-    if (evento.target.id === 'cot-origen-piso') sugerirAcceso('origen');
-    if (evento.target.id === 'cot-destino-piso') sugerirAcceso('destino');
+    if (evento.target.name === 'origen-piso') sugerirAcceso('origen');
+    if (evento.target.name === 'destino-piso') sugerirAcceso('destino');
     if (evento.target.id === 'cot-fecha') sincronizarFecha();
     avisarEscalera('origen');
     avisarEscalera('destino');
@@ -627,6 +632,18 @@
       marcas: Array.prototype.slice.call(indicador.querySelectorAll('.stepper__num')),
       duracion: 700
     });
+  }
+
+  var navegacion = form.querySelector('.cotizador__nav');
+  if (navegacion && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entradas) {
+      navegacion.classList.toggle('is-fija', entradas[entradas.length - 1].isIntersecting);
+    }).observe(form);
+  }
+  if (navegacion && window.visualViewport) {
+    window.visualViewport.addEventListener('resize', function () {
+      navegacion.classList.toggle('is-teclado', window.visualViewport.height < window.innerHeight * 0.75);
+    }, { passive: true });
   }
 
   sincronizarServicio();

@@ -19,9 +19,9 @@ robots.txt, sitemap.xml        Con [[URL_WEB]]
 PENDIENTES.md                  Lo que falta confirmar o conseguir
 ```
 
-**Secciones del home:** header, hero, `#nosotros` (quiénes somos y datos), `#servicios` (tarjetas y adicionales), `#vehiculos`, `#como-trabajamos`, franja de datos, `#por-que-elegirnos` (franja de números), `#resenas`, franja previa, `#cotizador`, `#zonas`, `#preguntas`, `#contacto`, `#cierre`, footer, WhatsApp fijo.
+**Secciones del home:** header, hero, `#nosotros` y `#por-que-elegirnos` (un solo bloque oscuro), `#servicios` (tarjetas y adicionales), `#vehiculos`, `#como-trabajamos`, `#resenas`, `#cotizador`, `#zonas`, `#preguntas`, `#contacto`, `#cierre`, footer, WhatsApp fijo.
 
-**Secciones de cada localidad:** header, hero, `#zona` (bloques alternados), `#localidades`, `#servicios`, `#resenas`, franja previa, `#cotizador`, `#preguntas`, `#cierre`, footer, WhatsApp fijo.
+**Secciones de cada localidad:** header, hero, `#zona` (bloques alternados), `#localidades`, `#servicios`, `#resenas`, `#cotizador`, `#preguntas`, `#cierre`, footer, WhatsApp fijo.
 
 **Navegación:** el `id` de cada sección va en su encabezado (`.section__header`), no en la `<section>`. Una sola regla lo ubica: `scroll-margin-top: var(--nav-offset)`, que es la altura del header más 32px. `main.js` la mide con ResizeObserver y la guarda en `--header-h`; es siempre la altura del header ya scrolleado: 68px en desktop; debajo de 1024px, solo la fila de links (48px en tablet, 44px en mobile).
 
@@ -32,14 +32,14 @@ PENDIENTES.md                  Lo que falta confirmar o conseguir
 - **CSP por `<meta>`:** `default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self'`. Nada de `style=`, `on*=`, `<style>` ni scripts inline (salvo el JSON-LD), ni `innerHTML` o `eval`. Cambiar estilos desde JS: por clases o `el.style`.
 - **Marca:** Transportes Julio, con "Fletes y mudanzas" como bajada. En el JSON-LD, `alternateName` conserva "Fletes y Mudanzas Julio", como figura en Google.
 - **Llamados a la acción, lista cerrada:** "Solicitar presupuesto" en el header desde 768px, el hero y el cierre (en amarillo, `.btn--primary`); "Consultar por WhatsApp" en el hero; el cotizador; WhatsApp flotante. "Cómo llegar" (`.btn--dark`) no pide presupuesto y se mantiene. Las tarjetas y las fotos no son links: el servicio se elige en el paso 1 del cotizador, y las zonas llevan un link de texto a su página. No sumar otros.
-- **Mobile:** en "Cómo trabajamos" se ve un paso por vez, con un camino chico debajo; el camión va siempre de perfil. Servicios y Vehículos son carruseles. Se ocultan solo debajo de 768px la vista previa del cotizador, el segundo bloque de foto, la foto del local en Contacto y algunas bajadas.
+- **Mobile:** el home tiene que medir 8 pantallas de 667px o menos en 375px de ancho. Servicios, Vehículos y Opiniones son carruseles con barra de progreso, y Opiniones también en tablet. En "Cómo trabajamos" las descripciones se ven siempre y el camión sigue al dedo. Las secciones oscuras se apilan como hojas, con radio de 28px. Las clases `.solo-mobile` y `.solo-grande` alternan los textos cortos y largos.
 - **Horarios:** se cambian en un solo lugar, la constante `HORARIOS` de `main.js`. Cada página los toma con `data-horario`; `openingHoursSpecification`, en el JSON-LD, lleva el horario del local.
 - **WhatsApp fijo:** círculo de 60px desde 768px; debajo, píldora que se contrae a círculo después de 600px. Se oculta mientras se ve el cotizador y con el teclado del celular abierto.
 - **Animaciones:** clases `.reveal`, `.reveal--left`, `.reveal--right` y `.reveal--scale`; `data-stagger` en el padre anima a los hijos con 90ms de diferencia. `main.js` agrega `.is-pending` solo a lo que está debajo del pliegue, así que sin JS o con reduced-motion todo queda visible. Solo `transform` y `opacity`. Parallax solo desde 1024px, con `data-parallax`.
 - **Medidas:** lo que lee el layout (línea del menú, fila de links, parallax) se calcula en `medirTodo()` de `main.js`: al cargar, en resize, con las fuentes y si cambia el alto de la página. El camión mide por su cuenta, en `camion.js`. Durante el scroll solo se usan valores guardados.
-- **Camión:** `window.JulioCamion.crear()` es la única lógica, para "Cómo trabajamos" y el cotizador. En "Cómo trabajamos" cada paso es un botón: el camión espera en el paso 1, con el frente sobre la parada, y cada descripción se revela cuando frena. Sin JS se ven los 4 pasos encendidos, y con reduced-motion todas las descripciones, sin pulso ni indicios.
+- **Camión:** `window.JulioCamion.crear()` es la única lógica, para "Cómo trabajamos" y el cotizador. Desde 768px, en "Cómo trabajamos" cada paso es un botón y cada descripción se revela cuando el camión frena. Sin JS se ven los 4 pasos encendidos, y con reduced-motion todas las descripciones, sin pulso ni indicios.
 - **Prohibido:** brillo que sigue al cursor, glows, degradados animados, efectos de brillo en botones. Los contadores animados, también, salvo el "8" y el "64" de "Por qué elegirnos".
-- **Colores:** base carbón `#121316`. El amarillo `#F5C400` va solo en el botón "Solicitar presupuesto", las palabras clave sobre fondo oscuro, los puntos de las etiquetas, los números de "Cómo trabajamos", el indicador del header, los tramos recorridos, los tildes y la franja de marca. Nunca como texto sobre blanco.
+- **Colores:** base carbón `#121316`. El amarillo `#F5C400` va en el botón "Solicitar presupuesto", las palabras clave sobre fondo oscuro, los puntos de las etiquetas, los números de "Cómo trabajamos" y de "Por qué elegirnos", el indicador del header, la barra de lectura, los tramos recorridos, los tildes, la franja de marca y las selecciones del cotizador. Nunca como texto sobre blanco.
 - **Franja de marca:** las diagonales del cartel del local, 6px, solo arriba del footer.
 - **Datos:** no se inventan. Lo que falta va como `[[PENDIENTE]]` o `[CONFIRMAR]` visible (`<mark class="pendiente">`) y se anota en `PENDIENTES.md`.
 
@@ -47,9 +47,9 @@ PENDIENTES.md                  Lo que falta confirmar o conseguir
 
 Los campos `id`, `name` y `data-*` los usa `js/cotizador.js`: no renombrarlos.
 
-- **Paso 1:** Mudanza, Flete, Traslado de muebles, Reparto para comercio, Viaje al interior, Guardamuebles o baulera, Otro.
+- **Paso 1:** tarjetas con icono: Mudanza, Flete, Traslado de muebles, Reparto para comercio, Viaje al interior, Guardamuebles o baulera, Otro.
 - **Paso 2:** contadores y "¿Algo más?". Con reparto para comercio, un campo para describir la carga reemplaza a los contadores.
-- **Paso 3, para origen y destino:** localidad, dirección, entre calles o referencia (opcional), tipo de propiedad, piso y acceso. Por escalera, con piso 1 o más, avisa que tiene un costo adicional. Con piso PB se sugiere el acceso directo, que se puede cambiar. Con viaje al interior, el destino suma la provincia. Con guardamuebles, solo el origen y "¿Por cuántos meses?". En las localidades, `data-origen` precarga el origen.
+- **Paso 3, para origen y destino:** localidad, dirección, entre calles o referencia (opcional), tipo de propiedad, piso (control segmentado) y acceso. Por escalera, con piso 1 o más, avisa que tiene un costo adicional. Con piso PB se sugiere el acceso directo, que se puede cambiar. Con viaje al interior, el destino suma la provincia. Con guardamuebles, solo el origen y "¿Por cuántos meses?". En las localidades, `data-origen` precarga el origen.
 - **Paso 4:** fecha, franja, "¿La fecha es flexible?", servicios adicionales y nombre. La fecha no acepta días pasados ni domingos. En los próximos 3 días avisa y suma "Urgente: sí" al mensaje. Los sábados deja solo la mañana.
 - **Mensaje:** un dato por línea, solo lo completado, sin líneas vacías.
 - **Vista previa:** forma de chat de WhatsApp, con negritas reales armadas con nodos del DOM. El mensaje enviado a `wa.me` lleva asteriscos y va con `encodeURIComponent`.

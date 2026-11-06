@@ -18,7 +18,7 @@
   window.JulioCamion = {
     /* contenedor: elemento que contiene el camino, siempre horizontal.
        marcas: elementos de cada parada, o una función que los devuelve si cambian según el ancho.
-       duracion: milisegundos de cada tramo.
+       duracion: milisegundos de cada tramo, o una función que los devuelve si cambian según el ancho.
        anclaFrente: el frente queda sobre la parada; si no se indica, el centro del camión. */
     crear({ contenedor, camion, recorrido, marcas, duracion, anclaFrente = false }) {
       let paradas = [];
@@ -99,11 +99,24 @@
         irA(i) {
           indice = i;
           alFinal = false;
-          return viajar(paradas[i], duracion);
+          return viajar(paradas[i], typeof duracion === 'function' ? duracion() : duracion);
         },
         irAlFinal() {
           alFinal = true;
-          return viajar(largo - mitad, duracion);
+          return viajar(largo - mitad, typeof duracion === 'function' ? duracion() : duracion);
+        },
+        // Acompaña un desplazamiento en tiempo real: 1.5 es la mitad del camino entre la parada 1 y la 2.
+        seguir(fraccion) {
+          if (sinMovimiento() || !paradas.length) return;
+          if (terminar) { const anterior = terminar; terminar = null; anterior(); }
+          clearTimeout(espera);
+          moviendo = false;
+          const f = Math.min(Math.max(fraccion, 0), paradas.length - 1);
+          const a = Math.floor(f);
+          const b = Math.min(a + 1, paradas.length - 1);
+          posicion = paradas[a] + (paradas[b] - paradas[a]) * (f - a);
+          camion.classList.add('is-moving');
+          aplicar(posicion, 0);
         },
         // No avanza: se mueve un poquito para adelante y vuelve.
         frenar() {

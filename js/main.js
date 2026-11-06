@@ -17,7 +17,10 @@
     semana: '7:30 a 19 h',
     sabado: '7:30 a 13 h',
     domingo: 'Cerrado',
+    corto: 'Lun. a vie. 7:30 a 19 h · Sáb. 7:30 a 13 h',
   };
+  // Los mismos horarios, en minutos desde las 0 h: alimentan el "Abierto ahora". 0 es domingo.
+  const HORARIO_LOCAL = { 1: [450, 1140], 2: [450, 1140], 3: [450, 1140], 4: [450, 1140], 5: [450, 1140], 6: [450, 780] };
   $$('[data-horario]').forEach(el => { el.textContent = HORARIOS[el.dataset.horario]; });
 
   const ZONA_HORARIA = 'America/Argentina/Buenos_Aires';
@@ -300,6 +303,10 @@
       if (el.getBoundingClientRect().top < window.innerHeight) return;
       el.classList.add('is-pending');
       reveal.observe(el);
+      // Terminada la entrada, sin demoras heredadas: :active tiene que responder enseguida.
+      el.addEventListener('transitionend', () => {
+        if (!el.classList.contains('is-pending')) el.classList.remove('reveal');
+      }, { once: true });
     });
   }
 
@@ -382,7 +389,7 @@
       camion: $('.route__truck', ruta),
       recorrido: $('.route__done', ruta),
       marcas: () => (enFila.matches ? numerosRuta : puntosRuta),
-      duracion: 900,
+      duracion: () => (enFila.matches ? 900 : 450),
       anclaFrente: true,
     });
     let activo = 0;
@@ -390,6 +397,9 @@
     let yaInteractuo = false;
     let filaProgramada = false;
     let esperaFila = 0;
+    let anchoPaso = 0;
+    let cuadroFila = 0;
+    let esperaSoltar = 0;
 
     const encender = i => {
       pasosRuta.forEach((paso, n) => {
@@ -428,9 +438,14 @@
       return camion.irA(i).then(() => { if (activo === i) alLlegar(i); });
     };
 
-    const elegir = (i, moverTarjeta = true) => {
+    const marcarInteraccion = () => {
       yaInteractuo = true;
+      ruta.classList.add('route--tocada');
       if (avisoRuta) avisoRuta.classList.remove('is-visible');
+    };
+
+    const elegir = (i, moverTarjeta = true) => {
+      marcarInteraccion();
       if (i < 0 || i > ultimoPaso || i === activo) return;
       irAlPasoRuta(i, moverTarjeta);
       if (estadoRuta) estadoRuta.textContent = `Paso ${i + 1}: ${$('.step__title', pasosRuta[i]).textContent}`;
@@ -464,17 +479,26 @@
       siguiente.addEventListener('click', () => elegir(volverAlInicio ? 0 : activo + 1));
     }
 
-    if (hayObserver) {
-      // Mobile: al deslizar con el dedo, el camión maneja a la parada de la tarjeta visible.
-      const vigiaTarjetas = new IntersectionObserver(entradas => {
-        entradas.forEach(e => {
-          if (!e.isIntersecting || filaProgramada || enFila.matches) return;
-          const visible = pasosRuta.indexOf(e.target);
-          if (visible !== activo) elegir(visible, false);
-        });
-      }, { root: filaPasos, threshold: 0.6 });
-      pasosRuta.forEach(paso => vigiaTarjetas.observe(paso));
-    }
+    // Mobile: mientras el dedo arrastra la tarjeta, el camión avanza en proporción.
+    // Al soltar, se acomoda en la parada del paso visible.
+    alMedir.push(() => {
+      anchoPaso = pasosRuta.length > 1 ? pasosRuta[1].offsetLeft - pasosRuta[0].offsetLeft : 0;
+    });
+
+    const soltarFila = () => {
+      const visible = Math.round(filaPasos.scrollLeft / anchoPaso);
+      if (visible !== activo) elegir(visible, false);
+      else camion.irA(activo).then(() => { if (activo === visible) alLlegar(visible); });
+    };
+
+    filaPasos.addEventListener('scroll', () => {
+      if (enFila.matches || filaProgramada || !anchoPaso) return;
+      marcarInteraccion();
+      window.cancelAnimationFrame(cuadroFila);
+      cuadroFila = window.requestAnimationFrame(() => camion.seguir(filaPasos.scrollLeft / anchoPaso));
+      clearTimeout(esperaSoltar);
+      esperaSoltar = setTimeout(soltarFila, 120);
+    }, { passive: true });
 
     // El indicio aparece al entrar la sección en pantalla, si todavía no hubo ningún toque.
     if (avisoRuta && !sinMovimiento) {
@@ -498,8 +522,8 @@
   const contadores = $$('[data-contar]');
   if (contadores.length && hayObserver && !sinMovimiento) {
     const DURACION_CUENTA = 800;
-    contadores.forEach(el => { el.textContent = '0'; });
 
+    // Reemplaza el texto en cada cuadro. Hasta entrar en pantalla queda el valor final del HTML.
     const contar = () => {
       const inicio = window.performance.now();
       const cuadro = ahora => {
@@ -508,6 +532,7 @@
         contadores.forEach(el => { el.textContent = String(Math.round(Number(el.dataset.contar) * avance)); });
         if (t < 1) window.requestAnimationFrame(cuadro);
       };
+      contadores.forEach(el => { el.textContent = '0'; });
       window.requestAnimationFrame(cuadro);
     };
 
@@ -519,22 +544,74 @@
     vigiaCuenta.observe(contadores[0].closest('.why__list'));
   }
 
-  /* ---------- Carruseles de mobile: el punto marca la tarjeta visible ---------- */
+  /* ---------- Carruseles: una barra fina avanza con el scroll ---------- */
   $$('[data-carrusel]').forEach(carrusel => {
-    const puntos = carrusel.nextElementSibling ? [...carrusel.nextElementSibling.children] : [];
-    if (!puntos.length || !hayObserver) return;
-    carrusel.nextElementSibling.hidden = false;
-    const tarjetas = [...carrusel.children];
-    puntos[0].classList.add('is-on');
-    const vigia = new IntersectionObserver(entradas => {
-      entradas.forEach(e => {
-        if (!e.isIntersecting) return;
-        const visible = tarjetas.indexOf(e.target);
-        puntos.forEach((punto, n) => punto.classList.toggle('is-on', n === visible));
-      });
-    }, { root: carrusel, threshold: 0.6 });
-    tarjetas.forEach(t => vigia.observe(t));
+    const barra = carrusel.nextElementSibling;
+    const relleno = barra ? $('span', barra) : null;
+    if (!relleno) return;
+    barra.hidden = false;
+    let cuadro = 0;
+    let anchoTotal = 1;
+    let anchoVisible = 1;
+    const pintar = () => { relleno.style.transform = `scaleX(${Math.min((anchoVisible + carrusel.scrollLeft) / anchoTotal, 1)})`; };
+    alMedir.push(() => {
+      anchoTotal = carrusel.scrollWidth || 1;
+      anchoVisible = carrusel.clientWidth;
+      pintar();
+    });
+    carrusel.addEventListener('scroll', () => {
+      window.cancelAnimationFrame(cuadro);
+      cuadro = window.requestAnimationFrame(pintar);
+    }, { passive: true });
   });
+
+  /* ---------- Progreso de lectura ---------- */
+  const barraLectura = $('#barra-lectura');
+  if (barraLectura && !sinMovimiento) {
+    let recorrido = 1;
+    let cuadro = 0;
+    const pintar = () => { barraLectura.style.transform = `scaleX(${Math.min(window.scrollY / recorrido, 1)})`; };
+    alMedir.push(() => {
+      recorrido = Math.max(raiz.scrollHeight - window.innerHeight, 1);
+      pintar();
+    });
+    window.addEventListener('scroll', () => {
+      window.cancelAnimationFrame(cuadro);
+      cuadro = window.requestAnimationFrame(pintar);
+    }, { passive: true });
+  }
+
+  /* ---------- Preguntas: en mobile, las 5 primeras a la vista ---------- */
+  const botonPreguntas = $('.faq__mas');
+  if (botonPreguntas) {
+    const listaPreguntas = botonPreguntas.previousElementSibling;
+    listaPreguntas.classList.add('faq--plegada');
+    botonPreguntas.hidden = false;
+    botonPreguntas.addEventListener('click', () => {
+      const primera = $('.faq__item--extra summary', listaPreguntas);
+      listaPreguntas.classList.remove('faq--plegada');
+      botonPreguntas.hidden = true;
+      if (primera) primera.focus();
+    });
+  }
+
+  /* ---------- Abierto ahora o cerrado, en la hora de Buenos Aires ---------- */
+  const estadoLocal = $('#estado-local');
+  if (estadoLocal) {
+    try {
+      const partes = new Intl.DateTimeFormat('en-US', { timeZone: ZONA_HORARIA, weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
+      const parte = tipo => partes.find(p => p.type === tipo).value;
+      const dia = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parte('weekday'));
+      const minutos = Number(parte('hour')) * 60 + Number(parte('minute'));
+      const turno = HORARIO_LOCAL[dia];
+      const abierto = Boolean(turno) && minutos >= turno[0] && minutos < turno[1];
+      estadoLocal.textContent = abierto ? 'Abierto ahora' : 'Cerrado';
+      estadoLocal.classList.toggle('is-abierto', abierto);
+      estadoLocal.hidden = false;
+    } catch (error) {
+      // Sin soporte de zonas horarias no se muestra: mejor nada que un dato equivocado.
+    }
+  }
 
   /* ---------- Día de hoy en la tabla de horarios ---------- */
   // Día de la semana en Argentina (0 = domingo), sin importar la zona del dispositivo.
