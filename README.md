@@ -81,7 +81,7 @@ Cada imagen es un solo archivo y se reemplaza **pisándolo con el mismo nombre**
 
 **Favicon:** `assets/img/favicon/`, con rutas absolutas en el `<head>` y en `site.webmanifest`. El sitio tiene que publicarse en la raíz del dominio; en una subcarpeta, esas rutas fallan.
 
-**Logo:** header, `assets/img/logo-header.webp`, con `logo-header.png` de respaldo, de 829×300 (64px de alto en desktop, 52px al scrollear, 56px de 1024 a 1279px, 52px en tablet, 44px en mobile); footer, `assets/img/logo-completo.webp`, con `logo-completo.png` de respaldo, de 424×480 (120px de alto, 96px en mobile). `assets/img/logo.png` queda para el JSON-LD. Se reemplazan pisando el archivo y tienen que leerse sobre carbón (`#121316`).
+**Logo:** header, `assets/img/logo-header.webp`, con `logo-header.png` de respaldo, de 708×300 (64px de alto en desktop, 52px al scrollear, 56px de 1024 a 1279px, 52px en tablet, 44px en mobile); footer, `assets/img/logo-completo.webp`, con `logo-completo.png` de respaldo, de 342×480 y 600×842 (120px de alto, 96px en mobile). `assets/img/logo.png` queda para el JSON-LD. Se reemplazan pisando el archivo y tienen que leerse sobre carbón (`#121316`).
 
 **Redacción:** como máximo una "y" por oración, una idea por oración de 8 a 20 palabras, sin repetir la misma palabra en oraciones seguidas, voseo profesional, sin adjetivos vacíos ni exclamaciones. Las opiniones de clientes son textuales y no se tocan.
 
