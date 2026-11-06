@@ -7,3 +7,4 @@ wrangler.jsonc
 .vscode
 .wrangler
 qa-mobile
+*.zip

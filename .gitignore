@@ -4,3 +4,4 @@ desktop.ini
 .vscode/
 .wrangler/
 qa-mobile/
+*.zip
