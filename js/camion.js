@@ -96,6 +96,7 @@
       if ('ResizeObserver' in window) new ResizeObserver(medir).observe(contenedor);
 
       return {
+        medir,
         irA(i) {
           indice = i;
           alFinal = false;

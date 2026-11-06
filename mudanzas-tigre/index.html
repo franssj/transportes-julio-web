@@ -439,7 +439,7 @@
 
         <div class="cotizador__layout reveal">
           <div class="cotizador__form-col">
-            <div id="cotizador-progress" class="stepper" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" aria-label="Progreso del formulario">
+            <div id="cotizador-progress" class="stepper" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" aria-label="Progreso del formulario">
               <div class="stepper__road" aria-hidden="true">
                 <svg class="stepper__lines" width="100%" height="100%" focusable="false">
                   <rect width="100%" height="100%" fill="#C4C5C2"/>
@@ -459,12 +459,13 @@
               <ol class="stepper__stops">
                 <li class="stepper__item is-current" data-stepper="1" aria-current="step"><span class="stepper__num">1</span><span class="stepper__name">Servicio</span></li>
                 <li class="stepper__item" data-stepper="2"><span class="stepper__num">2</span><span class="stepper__name">Carga</span></li>
-                <li class="stepper__item" data-stepper="3"><span class="stepper__num">3</span><span class="stepper__name">Origen y destino</span></li>
-                <li class="stepper__item" data-stepper="4"><span class="stepper__num">4</span><span class="stepper__name">Fecha</span></li>
+                <li class="stepper__item" data-stepper="3"><span class="stepper__num">3</span><span class="stepper__name">Origen</span></li>
+                <li class="stepper__item" data-stepper="4"><span class="stepper__num">4</span><span class="stepper__name">Destino</span></li>
+                <li class="stepper__item" data-stepper="5"><span class="stepper__num">5</span><span class="stepper__name">Fecha</span></li>
               </ol>
               <p id="cotizador-progress-name" class="stepper__current" aria-hidden="true">Servicio</p>
             </div>
-            <p id="cotizador-progress-text" class="visually-hidden">Paso 1 de 4</p>
+            <p id="cotizador-progress-text" class="visually-hidden">Paso 1 de 5</p>
 
             <form id="cotizador-form" class="cotizador__form" data-origen="Tigre" novalidate>
 
@@ -611,12 +612,12 @@
 
                 <div class="field" data-solo-comercio hidden>
                   <label class="field__label" for="cot-carga">Describí la carga (tipo, cantidad, peso aproximado)</label>
-                  <textarea class="field__input" id="cot-carga" name="carga" rows="3" maxlength="300" aria-describedby="error-items"></textarea>
+                  <textarea class="field__input" id="cot-carga" name="carga" rows="3" maxlength="300" autocapitalize="sentences" aria-describedby="error-items"></textarea>
                 </div>
 
                 <div class="field">
                   <label class="field__label" for="cot-mas">¿Algo más?</label>
-                  <textarea class="field__input" id="cot-mas" name="mas" rows="3" maxlength="200" aria-describedby="error-items"></textarea>
+                  <textarea class="field__input" id="cot-mas" name="mas" rows="3" maxlength="200" autocapitalize="sentences" aria-describedby="error-items"></textarea>
                   <p class="field__hint">Indicá aquí lo que no figure en la lista.</p>
                 </div>
                 <p id="error-items" class="field-error" aria-live="polite"></p>
@@ -624,23 +625,22 @@
 
               <!-- Paso 3 -->
               <div class="cotizador-step" data-step="3" hidden>
-                <h3 class="cotizador-step__title" tabindex="-1">Origen y destino</h3>
-                <div class="cotizador-step__columns">
-                  <fieldset class="cotizador-step__group">
-                    <legend class="cotizador-step__legend">Origen</legend>
+                <h3 class="cotizador-step__title" tabindex="-1">¿Desde dónde?</h3>
+                <fieldset class="cotizador-step__group">
+                    <legend class="visually-hidden">Origen</legend>
                     <div class="field">
                       <label class="field__label" for="cot-origen">Localidad</label>
-                      <input class="field__input" type="text" id="cot-origen" name="origen" maxlength="60" autocomplete="off" required aria-describedby="error-origen" placeholder="Ej.: Belén de Escobar">
+                      <input class="field__input" type="text" id="cot-origen" name="origen" maxlength="60" autocomplete="off" autocapitalize="sentences" required aria-describedby="error-origen" placeholder="Ej.: Belén de Escobar">
                       <p id="error-origen" class="field-error" aria-live="polite"></p>
                     </div>
                     <div class="field">
                       <label class="field__label" for="cot-origen-direccion">Dirección</label>
-                      <input class="field__input" type="text" id="cot-origen-direccion" name="origen-direccion" maxlength="80" autocomplete="street-address" required aria-describedby="error-origen-direccion" placeholder="Av. San Martín 678">
+                      <input class="field__input" type="text" id="cot-origen-direccion" name="origen-direccion" maxlength="80" autocomplete="street-address" autocapitalize="sentences" required aria-describedby="error-origen-direccion" placeholder="Av. San Martín 678">
                       <p id="error-origen-direccion" class="field-error" aria-live="polite"></p>
                     </div>
                     <div class="field field--chica">
                       <label class="field__label" for="cot-origen-referencia">Entre calles o referencia (opcional)</label>
-                      <input class="field__input" type="text" id="cot-origen-referencia" name="origen-referencia" maxlength="80" autocomplete="off" placeholder="Entre Mitre y Sarmiento">
+                      <input class="field__input" type="text" id="cot-origen-referencia" name="origen-referencia" maxlength="80" autocomplete="off" autocapitalize="sentences" placeholder="Entre Mitre y Sarmiento">
                     </div>
                     <fieldset class="choice-group" aria-describedby="error-origen-tipo">
                       <legend class="field__label">Tipo de propiedad</legend>
@@ -729,22 +729,27 @@
                     </fieldset>
                     </div>
                   </fieldset>
+                <p class="cotizador__nota">La dirección nos sirve para calcular el presupuesto. No la compartimos con nadie.</p>
+              </div>
 
-                  <fieldset class="cotizador-step__group" data-sin-guardado>
-                    <legend class="cotizador-step__legend">Destino</legend>
+              <!-- Paso 4: se saltea con guardamuebles -->
+              <div class="cotizador-step" data-step="4" hidden>
+                <h3 class="cotizador-step__title" tabindex="-1">¿Hasta dónde?</h3>
+                <fieldset class="cotizador-step__group">
+                    <legend class="visually-hidden">Destino</legend>
                     <div class="field">
                       <label class="field__label" for="cot-destino">Localidad</label>
-                      <input class="field__input" type="text" id="cot-destino" name="destino" maxlength="60" autocomplete="off" required aria-describedby="error-destino" placeholder="Ej.: Tigre">
+                      <input class="field__input" type="text" id="cot-destino" name="destino" maxlength="60" autocomplete="off" autocapitalize="sentences" required aria-describedby="error-destino" placeholder="Ej.: Tigre">
                       <p id="error-destino" class="field-error" aria-live="polite"></p>
                     </div>
                     <div class="field">
                       <label class="field__label" for="cot-destino-direccion">Dirección</label>
-                      <input class="field__input" type="text" id="cot-destino-direccion" name="destino-direccion" maxlength="80" autocomplete="off" required aria-describedby="error-destino-direccion" placeholder="Av. San Martín 678">
+                      <input class="field__input" type="text" id="cot-destino-direccion" name="destino-direccion" maxlength="80" autocomplete="off" autocapitalize="sentences" required aria-describedby="error-destino-direccion" placeholder="Av. San Martín 678">
                       <p id="error-destino-direccion" class="field-error" aria-live="polite"></p>
                     </div>
                     <div class="field field--chica">
                       <label class="field__label" for="cot-destino-referencia">Entre calles o referencia (opcional)</label>
-                      <input class="field__input" type="text" id="cot-destino-referencia" name="destino-referencia" maxlength="80" autocomplete="off" placeholder="Entre Mitre y Sarmiento">
+                      <input class="field__input" type="text" id="cot-destino-referencia" name="destino-referencia" maxlength="80" autocomplete="off" autocapitalize="sentences" placeholder="Entre Mitre y Sarmiento">
                     </div>
                     <div data-solo-interior hidden>
                     <div class="field">
@@ -838,12 +843,11 @@
                       <p id="error-destino-acceso" class="field-error" aria-live="polite"></p>
                     </fieldset>
                   </fieldset>
-                </div>
                 <p class="cotizador__nota">La dirección nos sirve para calcular el presupuesto. No la compartimos con nadie.</p>
               </div>
 
-              <!-- Paso 4 -->
-              <div class="cotizador-step" data-step="4" hidden>
+              <!-- Paso 5 -->
+              <div class="cotizador-step" data-step="5" hidden>
                 <h3 class="cotizador-step__title" tabindex="-1">Fecha y servicios adicionales</h3>
 
                 <div class="field">
@@ -858,11 +862,11 @@
                       <div class="tiles">
                       <div class="tile">
                       <input class="tile__input" type="radio" id="cot-franja-manana" name="franja" value="manana">
-                      <label class="tile__label" for="cot-franja-manana"><svg class="icon tile__icon" width="28" height="28" aria-hidden="true" focusable="false"><use href="#icon-sol"></use></svg><span>Mañana (7:30 a 13 h)</span></label>
+                      <label class="tile__label" for="cot-franja-manana"><svg class="icon tile__icon" width="28" height="28" aria-hidden="true" focusable="false"><use href="#icon-sol"></use></svg><span><span data-horario="franjaManana">Mañana (7:30 a 13 h)</span></span></label>
                     </div>
                       <div class="tile" data-no-sabado>
                       <input class="tile__input" type="radio" id="cot-franja-tarde" name="franja" value="tarde">
-                      <label class="tile__label" for="cot-franja-tarde"><svg class="icon tile__icon" width="28" height="28" aria-hidden="true" focusable="false"><use href="#icon-atardecer"></use></svg><span>Tarde (13 a 19 h)</span></label>
+                      <label class="tile__label" for="cot-franja-tarde"><svg class="icon tile__icon" width="28" height="28" aria-hidden="true" focusable="false"><use href="#icon-atardecer"></use></svg><span><span data-horario="franjaTarde">Tarde (13 a 19 h)</span></span></label>
                     </div>
                       <div class="tile" data-no-sabado>
                       <input class="tile__input" type="radio" id="cot-franja-indistinto" name="franja" value="indistinto" checked>
@@ -871,6 +875,7 @@
                       </div>
                       <p id="error-franja" class="field-error" aria-live="polite"></p>
                     </fieldset>
+                <p id="aviso-sabado" class="aviso-reloj" role="status" hidden><svg class="icon" width="16" height="16" aria-hidden="true" focusable="false"><use href="#icon-clock"></use></svg><span data-horario="avisoSabado">Los sábados trabajamos de 7:30 a 13 h.</span></p>
 
                 <fieldset class="choice-group">
                       <legend class="field__label">¿La fecha es flexible?</legend>
@@ -889,7 +894,7 @@
 
                 <div class="field">
                   <label class="field__label" for="cot-nombre">Nombre (opcional)</label>
-                  <input class="field__input" type="text" id="cot-nombre" name="nombre" maxlength="60" autocomplete="name">
+                  <input class="field__input" type="text" id="cot-nombre" name="nombre" maxlength="60" autocomplete="name" autocapitalize="words">
                 </div>
               </div>
 

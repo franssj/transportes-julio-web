@@ -19,6 +19,9 @@
     domingo: 'Cerrado',
     corto: 'Lun. a vie. 7:30 a 19 h · Sáb. 7:30 a 13 h',
     frase: 'Trabajamos de lunes a viernes de 7:30 a 19 h. Los sábados, de 7:30 a 13 h.',
+    franjaManana: 'Mañana (7:30 a 13 h)',
+    franjaTarde: 'Tarde (13 a 19 h)',
+    avisoSabado: 'Los sábados trabajamos de 7:30 a 13 h.',
   };
   // Los mismos horarios, en minutos desde las 0 h: alimentan el "Abierto ahora". 0 es domingo.
   const HORARIO_LOCAL = { 1: [450, 1140], 2: [450, 1140], 3: [450, 1140], 4: [450, 1140], 5: [450, 1140], 6: [450, 780] };

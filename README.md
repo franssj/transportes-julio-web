@@ -12,7 +12,7 @@ privacidad/index.html          Política de privacidad
 css/styles.css                 Todos los estilos (índice al principio del archivo)
 js/camion.js                   Lógica del camión, compartida por los dos caminos. Se carga primero
 js/main.js                     Header, fila de links, animaciones, parallax, ruta, horarios, WhatsApp fijo
-js/cotizador.js                Formulario de 4 pasos y mensaje de WhatsApp
+js/cotizador.js                Formulario de 5 pasos y mensaje de WhatsApp
 assets/img/                    Fotos y logo: se reemplazan pisando el archivo
 assets/fonts/                  Inter 300, 400, 500, 600 y 700 en woff2, con su licencia (SIL OFL, en OFL.txt)
 robots.txt, sitemap.xml        Con [[URL_WEB]]
@@ -50,8 +50,9 @@ Los campos `id`, `name` y `data-*` los usa `js/cotizador.js`: no renombrarlos.
 - **Barra fija de mobile:** "Atrás" y "Siguiente" se ven mientras el formulario ocupa la zona entre la mitad de la pantalla y la barra. La píldora de WhatsApp vuelve apenas la barra se oculta.
 - **Paso 1:** tarjetas con icono: Mudanza, Flete, Traslado de muebles, Reparto para comercio, Viaje al interior, Guardamuebles o baulera, Otro.
 - **Paso 2:** contadores y "¿Algo más?". Con reparto para comercio, un campo para describir la carga reemplaza a los contadores.
-- **Paso 3, para origen y destino:** localidad, dirección, entre calles o referencia (opcional), tipo de propiedad, piso (control segmentado) y acceso. Por escalera, con piso 1 o más, avisa que tiene un costo adicional. Con piso PB se sugiere el acceso directo, que se puede cambiar. Con viaje al interior, el destino suma la provincia. Con guardamuebles, solo el origen y "¿Por cuántos meses?". En las localidades, `data-origen` precarga el origen.
-- **Paso 4:** fecha, franja, "¿La fecha es flexible?", servicios adicionales y nombre. La fecha no acepta días pasados ni domingos. En los próximos 3 días avisa y suma "Urgente: sí" al mensaje. Los sábados deja solo la mañana.
+- **Paso 3, "¿Desde dónde?", y paso 4, "¿Hasta dónde?":** localidad, dirección, entre calles o referencia (opcional), tipo de propiedad, piso (control segmentado) y acceso. Por escalera, con piso 1 o más, avisa que tiene un costo adicional. Con piso PB se sugiere el acceso directo, que se puede cambiar. Con viaje al interior, el destino suma la provincia. Con guardamuebles se saltea el paso 4, y el 3 suma "¿Por cuántos meses?": el indicador muestra 4 paradas. En las localidades, `data-origen` precarga el origen.
+- **Paso 5:** fecha, franja, "¿La fecha es flexible?", servicios adicionales y nombre. La fecha no acepta días pasados ni domingos. En los próximos 3 días avisa y suma "Urgente: sí" al mensaje. Los sábados, "Tarde" e "Indistinto" quedan deshabilitadas, con un aviso.
+- **Mayúsculas:** los campos de texto arrancan con mayúscula en el celular (`autocapitalize`), y al salir del campo el JS corrige la primera letra; en el nombre, la de cada palabra.
 - **Mensaje:** un dato por línea, solo lo completado, sin líneas vacías.
 - **Vista previa:** forma de chat de WhatsApp, con negritas reales armadas con nodos del DOM. El mensaje enviado a `wa.me` lleva asteriscos y va con `encodeURIComponent`.
 

@@ -11,7 +11,7 @@
   if (!form) return;
 
   var WHATSAPP_URL = 'https://wa.me/5491135478407?text=';
-  var TOTAL_PASOS = 4;
+  var TOTAL_PASOS = 5;   // el último es Fecha; con guardamuebles se saltea el 4 (Destino)
   var MAX_POR_OBJETO = 99;
   var ESPERA_PREVIEW_MS = 300;
 
@@ -46,7 +46,6 @@
   var ACCESOS = { escalera: 'Escalera', ascensor: 'Ascensor', montacargas: 'Montacargas', directo: 'Acceso directo' };
   var FLEXIBLE = { si: 'Sí', no: 'No' };
   var TIEMPOS = { 1: '1 mes', '2-3': '2 o 3 meses', '4-6': '4 a 6 meses', 'mas-6': 'Más de 6 meses', definir: 'A definir' };
-  var FRANJAS = { manana: 'Mañana (7:30 a 13 h)', tarde: 'Tarde (13 a 19 h)', indistinto: 'Indistinto' };
   var EXTRAS = { embalaje: 'Embalaje de muebles y electrodomésticos', soga: 'Soga por balcón', visita: 'Visita sin cargo para presupuestar' };
   var DIAS_FECHA_CERCANA = 3;
 
@@ -64,6 +63,7 @@
 
   var pasoActual = 1;
   var cantidades = {};
+  var paradasMedidas = 0;
   var temporizadorPreview = null;
   var ultimoMensaje = null;
   var eraSabado = false;
@@ -105,6 +105,21 @@
     var el = campo(id);
     if (!el) return '';
     return limpiarTexto(el.value, el.maxLength > 0 ? el.maxLength : 200);
+  }
+
+  // Al salir del campo: primera letra en mayúscula; en el nombre, la de cada palabra. El resto queda como se escribió.
+  function capitalizar(el) {
+    var patron = el.id === 'cot-nombre' ? /(^|\s)(\p{Ll})/gu : /^(\s*)(\p{Ll})/u;
+    var corregido = el.value.replace(patron, function (todo, antes, letra) {
+      return antes + letra.toLocaleUpperCase('es-AR');
+    });
+    if (corregido === el.value) return false;
+    el.value = corregido;
+    return true;
+  }
+
+  function capitalizarTodo() {
+    Array.prototype.forEach.call(form.querySelectorAll('input[type="text"], textarea'), capitalizar);
   }
 
   // Fecha local en YYYY-MM-DD; toISOString daría el día UTC, que de noche ya es mañana.
@@ -211,7 +226,9 @@
       reglaRadio('origen-tipo', 'Seleccioná el tipo de propiedad de origen.'),
       reglaRadio('origen-piso', 'Seleccioná el piso de origen.'),
       reglaRadio('origen-acceso', 'Seleccioná el tipo de acceso en el origen.'),
-      soloSi(esGuardado, reglaRadio('tiempo', 'Indicá por cuántos meses necesitás la baulera.')),
+      soloSi(esGuardado, reglaRadio('tiempo', 'Indicá por cuántos meses necesitás la baulera.'))
+    ],
+    4: [
       soloSi(conDestino, reglaObligatorio('cot-destino', 'error-destino', 'Indicá la localidad de destino.')),
       soloSi(conDestino, reglaObligatorio('cot-destino-direccion', 'error-destino-direccion', 'Ingresá la calle y la altura.')),
       soloSi(esInterior, reglaSelect('cot-destino-provincia', 'error-destino-provincia', 'Seleccioná la provincia de destino.')),
@@ -219,7 +236,7 @@
       soloSi(conDestino, reglaRadio('destino-piso', 'Seleccioná el piso de destino.')),
       soloSi(conDestino, reglaRadio('destino-acceso', 'Seleccioná el tipo de acceso en el destino.'))
     ],
-    4: [
+    5: [
       {
         error: 'error-fecha',
         campos: function () { return [campo('cot-fecha')]; },
@@ -274,23 +291,34 @@
 
   /* ---------- Navegación entre pasos ---------- */
 
+  function pasosActivos() {
+    return esGuardado() ? [1, 2, 3, 5] : [1, 2, 3, 4, 5];
+  }
+
   function renderizarPaso() {
     Array.prototype.forEach.call(form.querySelectorAll('.cotizador-step[data-step]'), function (paso) {
       paso.hidden = Number(paso.getAttribute('data-step')) !== pasoActual;
     });
 
-    if (btnAtras) btnAtras.hidden = pasoActual === 1;
+    var activos = pasosActivos();
+    var indice = activos.indexOf(pasoActual);
+
+    if (btnAtras) btnAtras.hidden = indice === 0;
     if (btnSiguiente) btnSiguiente.hidden = pasoActual === TOTAL_PASOS;
     if (btnEnviar) btnEnviar.hidden = pasoActual !== TOTAL_PASOS;
     if (notas) notas.hidden = pasoActual !== TOTAL_PASOS;
 
     if (indicador) {
-      indicador.setAttribute('aria-valuenow', String(pasoActual));
+      indicador.setAttribute('aria-valuemax', String(activos.length));
+      indicador.setAttribute('aria-valuenow', String(indice + 1));
       Array.prototype.forEach.call(indicador.querySelectorAll('[data-stepper]'), function (item) {
-        var numero = Number(item.getAttribute('data-stepper'));
-        item.classList.toggle('is-current', numero === pasoActual);
-        item.classList.toggle('is-done', numero < pasoActual);
-        if (numero === pasoActual) {
+        var posicion = activos.indexOf(Number(item.getAttribute('data-stepper')));
+        item.hidden = posicion === -1;
+        if (posicion === -1) return;
+        item.querySelector('.stepper__num').textContent = String(posicion + 1);
+        item.classList.toggle('is-current', posicion === indice);
+        item.classList.toggle('is-done', posicion < indice);
+        if (posicion === indice) {
           item.setAttribute('aria-current', 'step');
           if (nombrePaso) nombrePaso.textContent = item.querySelector('.stepper__name').textContent;
         } else {
@@ -298,8 +326,15 @@
         }
       });
     }
-    if (textoProgreso) textoProgreso.textContent = 'Paso ' + pasoActual + ' de ' + TOTAL_PASOS;
-    if (camion) camion.irA(pasoActual - 1);
+    if (textoProgreso) textoProgreso.textContent = 'Paso ' + (indice + 1) + ' de ' + activos.length;
+    if (camion) {
+      // Al sumar o sacar una parada, cambian las posiciones del camino.
+      if (paradasMedidas !== activos.length) {
+        paradasMedidas = activos.length;
+        camion.medir();
+      }
+      camion.irA(indice);
+    }
   }
 
   function sinAnimacion() {
@@ -337,7 +372,9 @@
       if (camion) camion.frenar();
       return;
     }
-    if (pasoActual < TOTAL_PASOS) irAlPaso(pasoActual + 1);
+    var activos = pasosActivos();
+    var indice = activos.indexOf(pasoActual);
+    if (indice < activos.length - 1) irAlPaso(activos[indice + 1]);
   }
 
   /* ---------- Contadores ---------- */
@@ -392,10 +429,15 @@
     if (aviso) aviso.hidden = !esFechaCercana();
 
     var sabado = diaElegido() === 6;
-    Array.prototype.forEach.call(form.querySelectorAll('[data-no-sabado]'), function (etiqueta) {
-      etiqueta.hidden = sabado;
-      etiqueta.querySelector('input').disabled = sabado;
+    Array.prototype.forEach.call(form.querySelectorAll('[data-no-sabado]'), function (opcion) {
+      var entrada = opcion.querySelector('input');
+      opcion.classList.toggle('is-off', sabado);
+      entrada.disabled = sabado;
+      if (sabado) entrada.setAttribute('aria-disabled', 'true');
+      else entrada.removeAttribute('aria-disabled');
     });
+    var avisoSabado = campo('aviso-sabado');
+    if (avisoSabado) avisoSabado.hidden = !sabado;
     if (sabado !== eraSabado) {
       if (sabado) franjaAntesDelSabado = valorRadio('franja');
       var franja = form.querySelector('input[name="franja"][value="' + (sabado ? 'manana' : franjaAntesDelSabado) + '"]');
@@ -403,13 +445,12 @@
       eraSabado = sabado;
     }
 
-    if (valorCampo('cot-fecha')) mostrarResultado(REGLAS[4][0], REGLAS[4][0].revisar());
+    if (valorCampo('cot-fecha')) mostrarResultado(REGLAS[5][0], REGLAS[5][0].revisar());
   }
 
   /* ---------- Campos según el servicio ---------- */
 
   function sincronizarServicio() {
-    Array.prototype.forEach.call(form.querySelectorAll('[data-sin-guardado]'), function (el) { el.hidden = esGuardado(); });
     Array.prototype.forEach.call(form.querySelectorAll('[data-solo-guardado]'), function (el) { el.hidden = !esGuardado(); });
     Array.prototype.forEach.call(form.querySelectorAll('[data-solo-interior]'), function (el) { el.hidden = !esInterior(); });
     Array.prototype.forEach.call(form.querySelectorAll('[data-solo-comercio]'), function (el) { el.hidden = !esComercio(); });
@@ -467,7 +508,8 @@
     sumar('Fecha', fechaParaMensaje(valorCampo('cot-fecha')));
     if (esFechaCercana()) sumar('Urgente', 'sí');
     sumar('Fecha flexible', FLEXIBLE[valorRadio('flexible')]);
-    sumar('Horario', FRANJAS[valorRadio('franja')]);
+    var franja = form.querySelector('input[name="franja"]:checked');
+    if (franja) sumar('Horario', limpiarTexto(form.querySelector('label[for="' + franja.id + '"]').textContent, 60));
 
     var extras = radios('extras').filter(function (casilla) {
       return casilla.checked && EXTRAS[casilla.value];
@@ -535,7 +577,10 @@
 
   function enviar() {
     if (enviando) return;
-    for (var paso = 1; paso <= TOTAL_PASOS; paso += 1) {
+    capitalizarTodo();
+    var activos = pasosActivos();
+    for (var i = 0; i < activos.length; i += 1) {
+      var paso = activos[i];
       var conError = validarPaso(paso);
       if (conError) {
         if (paso !== pasoActual) {
@@ -566,7 +611,9 @@
 
   if (btnAtras) {
     btnAtras.addEventListener('click', function () {
-      if (pasoActual > 1) irAlPaso(pasoActual - 1);
+      var activos = pasosActivos();
+      var indice = activos.indexOf(pasoActual);
+      if (indice > 0) irAlPaso(activos[indice - 1]);
     });
   }
 
@@ -577,13 +624,20 @@
     if (boton) clicEnContador(boton);
   });
 
+  form.addEventListener('focusout', function (evento) {
+    if (evento.target.matches('input[type="text"], textarea') && capitalizar(evento.target)) alCambiar();
+  });
+
   form.addEventListener('input', function () {
     revisarErroresVisibles();
     programarPreview();
   });
 
   form.addEventListener('change', function (evento) {
-    if (evento.target.name === 'servicio') sincronizarServicio();
+    if (evento.target.name === 'servicio') {
+      sincronizarServicio();
+      renderizarPaso();
+    }
     if (evento.target.name === 'origen-piso') sugerirAcceso('origen');
     if (evento.target.name === 'destino-piso') sugerirAcceso('destino');
     if (evento.target.id === 'cot-fecha') sincronizarFecha();
@@ -629,7 +683,7 @@
       contenedor: indicador,
       camion: indicador.querySelector('.stepper__truck'),
       recorrido: indicador.querySelector('.stepper__done'),
-      marcas: Array.prototype.slice.call(indicador.querySelectorAll('.stepper__num')),
+      marcas: function () { return Array.prototype.slice.call(indicador.querySelectorAll('.stepper__item:not([hidden]) .stepper__num')); },
       duracion: 700
     });
   }
@@ -690,6 +744,7 @@
   }
 
   sincronizarServicio();
+  paradasMedidas = pasosActivos().length;
   renderizarPaso();
   actualizarPreview();
 })();
