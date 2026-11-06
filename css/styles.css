@@ -3144,6 +3144,48 @@ main > .photo-band--cierre,
   contain-intrinsic-size: auto 480px;
 }
 
+/* Logo completo en el hero. Mobile y tablet: centrado, arriba del título */
+.hero__logo { display: block; width: fit-content; margin-inline: auto; }
+
+.hero__logo img { display: block; width: auto; max-width: none; height: 140px; }
+
+.hero__texto { min-width: 0; }
+
+@media (max-width: 47.99rem) {
+  .hero__logo { margin-bottom: var(--sp-1); }
+}
+
+@media (min-width: 48rem) {
+  .hero__logo { margin-bottom: var(--sp-3); }
+
+  .hero__logo img { height: 200px; }
+}
+
+/* Celular en horizontal: el logo no puede ocupar media pantalla */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 63.99rem) {
+  .hero__logo img { height: 96px; }
+}
+
+/* Desktop: contenido a la izquierda y logo a la derecha */
+@media (min-width: 64rem) {
+  .hero__content { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: var(--sp-5); }
+
+  .hero__logo { grid-column: 2; grid-row: 1; margin: 0; }
+
+  .hero__logo img { height: clamp(380px, 29vw, 420px); filter: drop-shadow(0 12px 32px rgba(0, 0, 0, .5)); }
+
+  .hero__texto { grid-column: 1; grid-row: 1; }
+}
+
+/* Mobile: la altura estimada, cerca de la real, para que la página no cambie de largo al llegar */
+@media (max-width: 47.99rem) {
+  main > section:has(#contacto) { contain-intrinsic-size: auto 560px; }
+
+  main > .photo-band--cierre { contain-intrinsic-size: auto 280px; }
+
+  .site-footer { contain-intrinsic-size: auto 300px; }
+}
+
 /* Con reduced-motion, sin barra de lectura */
 @media (prefers-reduced-motion: reduce) {
   .barra-lectura { display: none; }

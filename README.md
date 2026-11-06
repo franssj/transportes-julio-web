@@ -81,6 +81,8 @@ Cada imagen es un solo archivo y se reemplaza **pisándolo con el mismo nombre**
 
 **Favicon:** `assets/img/favicon/`, con rutas absolutas en el `<head>` y en `site.webmanifest`. El sitio tiene que publicarse en la raíz del dominio; en una subcarpeta, esas rutas fallan.
 
+**Logo completo:** en el hero, `assets/img/logo-completo.webp`, con `logo-completo.png` de respaldo.
+
 **Logo:** header, `assets/img/logo-header.webp`, con `logo-header.png` de respaldo (56px de alto en desktop, 46px al scrollear, 48px en tablet, 40px en mobile); footer, `assets/img/logo.png` (56px de alto). Se reemplazan pisando el archivo y tienen que leerse sobre carbón (`#121316`).
 
 **Redacción:** como máximo una "y" por oración, una idea por oración de 8 a 20 palabras, sin repetir la misma palabra en oraciones seguidas, voseo profesional, sin adjetivos vacíos ni exclamaciones. Las opiniones de clientes son textuales y no se tocan.
