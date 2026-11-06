@@ -1195,7 +1195,7 @@ h3 { font-size: var(--fs-h3); }
 
 /* 11. La zona (localidades) =============================================== */
 /* Tarjeta oscura sobre el fondo claro: foto oscurecida, etiqueta con línea y lista con guiones */
-.zona { padding-block: 48px; background: var(--fondo); }
+.zona { background: #F5F5F3; }
 
 .zona__tarjeta {
   position: relative;
@@ -1218,11 +1218,11 @@ h3 { font-size: var(--fs-h3); }
   height: 100%;
   max-width: none;
   object-fit: cover;
-  filter: blur(2px) grayscale(30%);
-  transform: scale(1.03);   /* el desenfoque no deja bordes claros */
+  filter: blur(4px) grayscale(40%);
+  transform: scale(1.04);   /* el desenfoque no deja bordes claros */
 }
 
-.zona__overlay { position: absolute; inset: 0; background: rgba(18, 19, 22, .82); }
+.zona__overlay { position: absolute; inset: 0; background: rgba(18, 19, 22, .88); }
 
 .zona .zona__ancla { max-width: none; height: 0; margin: 0; }
 
@@ -3017,8 +3017,6 @@ textarea.field__input { min-height: 96px; resize: vertical; }
 
 /* La zona en mobile */
 @media (max-width: 47.99rem) {
-  .zona { padding-block: 32px; }
-
   .zona__tarjeta { border-radius: 20px; }
 
   .zona__contenido { padding: 28px 20px; }
