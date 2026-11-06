@@ -65,7 +65,6 @@ Cada imagen es un solo archivo y se reemplaza **pisándolo con el mismo nombre**
 | `veh-mercedes-1114.webp`, `veh-mercedes-playo.webp`, `veh-hino.webp`, `veh-dfm.webp`, `veh-ford-trailer.webp`, `veh-chevrolet.webp` | 1200×750 | 200 KB |
 | `servicio-interior.webp`, `servicio-guardamuebles.webp` | 1200×900 | 200 KB |
 | `servicio-mudanza.webp`, `servicio-flete.webp`, `servicio-muebles.webp`, `servicio-comercios.webp` | 1200×900 | 200 KB |
-| `banda-elegirnos.webp` (hoy no se muestra) | 1600×750 | 200 KB |
 | `banda-cierre.webp` | 1920×800 | 200 KB |
 | `local-fachada.webp` | 1200×900 | 200 KB |
 | `og-image.jpg` | 1200×630 | 200 KB |
