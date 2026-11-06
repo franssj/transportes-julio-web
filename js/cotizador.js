@@ -638,6 +638,18 @@
      Se ve mientras el formulario ocupa la zona entre la mitad de la pantalla (o el header, si está más
      abajo) y la propia barra. Al bajar se oculta cuando el final del formulario sube de la mitad, porque
      debajo ya se ve otra sección; al subir, apenas el formulario queda por debajo de la barra. */
+  // Mobile y tablet: al enfocar un campo de texto, queda en el centro de lo que se ve. Se espera a que
+  // abra el teclado. Con el foco puesto por el teclado físico (Tab) el navegador ya hizo lo suyo.
+  var conTeclado = window.matchMedia('(max-width: 63.99rem) and (pointer: coarse)');
+  var esperaFoco = 0;
+  form.addEventListener('focusin', function (evento) {
+    if (!conTeclado.matches || !evento.target.matches('input.field__input, textarea, select')) return;
+    clearTimeout(esperaFoco);
+    esperaFoco = setTimeout(function () {
+      evento.target.scrollIntoView({ behavior: sinAnimacion() ? 'auto' : 'smooth', block: 'center' });
+    }, 300);
+  });
+
   var navegacion = form.querySelector('.cotizador__nav');
   var cabecera = document.getElementById('site-header');
   var vigiaBarra = null;

@@ -3022,6 +3022,105 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   .zona__contenido { padding: 28px 20px; }
 }
 
+/* Revisión final de mobile y tablet ======================================= */
+/* iOS: sin flash al tocar, sin estilo nativo en botones y campos */
+html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+
+button,
+input.field__input,
+textarea.field__input { -webkit-appearance: none; appearance: none; }
+
+/* En iPhone, el campo de fecha no respeta el ancho sin esto */
+input[type="date"].field__input { min-width: 0; max-width: 100%; }
+
+/* Títulos sin palabras sueltas; párrafos parejos */
+h1,
+h2,
+h3,
+h4 { text-wrap: balance; }
+
+p,
+blockquote { text-wrap: pretty; }
+
+/* Links dentro de un texto: el área táctil crece sin mover el renglón */
+.why__text a,
+.site-footer__linea a,
+.site-footer__legal a,
+.legal a { position: relative; }
+
+@media (min-width: 48rem) {
+  .hero__rating { position: relative; }
+}
+
+.why__text a::after,
+.site-footer__linea a::after,
+.site-footer__legal a::after,
+.legal a::after { content: ""; position: absolute; inset: -14px -2px; }
+
+.hero__rating::after { content: ""; position: absolute; inset: -6px 0; }
+
+.pendiente { font-size: max(.78em, 13px); }
+
+@media (max-width: 63.99rem) {
+  .section__label { font-size: 13px; letter-spacing: .1em; }
+
+  .zona__label { font-size: 13px; }
+
+  .wa-bubble__meta { font-size: 13px; }
+
+  .fleet-card__grupo { font-size: 13px; letter-spacing: .02em; }
+
+  .site-row__link { justify-content: center; min-width: 44px; }
+
+  .contact-item__value a { min-height: 44px; }
+}
+
+@media (max-width: 47.99rem) {
+  .section__label { margin-bottom: .375rem; }
+
+  /* El mismo espacio entre título y contenido que en las demás secciones */
+  .about .section__header { margin-bottom: 12px; }
+
+  .step__btn { min-height: 44px; }
+
+  /* 44px de área táctil sin agrandar la página: el margen negativo compensa */
+  .reviews__actions .arrow-link { min-height: 44px; margin-block: -4px; }
+
+  .zone-block__link { top: 4px; min-height: 44px; }
+
+  .zone-block__mas summary { min-height: 44px; margin-block: -6px; }
+
+  .contact-item__value a { min-height: 44px; margin-block: -4px; }
+
+  /* Footer: renglones de 32px, para no errarle al tocar */
+  .site-footer__links a { display: inline-flex; align-items: center; min-height: 32px; }
+
+  .site-footer__links a::after { inset: 0; }
+}
+
+/* Recortes de foto: el camión a la vista cuando la pantalla es angosta */
+@media (max-width: 63.99rem) {
+  .hero__img[src$="hero-tigre.webp"] { object-position: 16% center; }
+
+  .hero__img[src$="hero-escobar.webp"] { object-position: 62% center; }
+}
+
+@media (max-width: 47.99rem) {
+  .fleet-card__img[src$="veh-mercedes-1114.webp"] { object-position: 14% center; }
+
+  .fleet-card__img[src$="veh-mercedes-playo.webp"] { object-position: 40% center; }
+
+  .fleet-card__img[src$="veh-hino.webp"] { object-position: 22% center; }
+
+  .fleet-card__img[src$="veh-dfm.webp"] { object-position: 68% center; }
+
+  .fleet-card__img[src$="veh-ford-trailer.webp"] { object-position: 30% center; }
+
+  .fleet-card__img[src$="veh-chevrolet.webp"] { object-position: 22% center; }
+
+  .service-card__img[src$="servicio-mudanza.webp"] { object-position: 28% center; }
+}
+
 /* Con reduced-motion, sin barra de lectura */
 @media (prefers-reduced-motion: reduce) {
   .barra-lectura { display: none; }
