@@ -692,6 +692,24 @@
      enterarse. La ventana sí pierde el foco: en ese momento se marca el contenedor. */
   const mapa = $('.location__map');
   const iframeMapa = mapa ? $('iframe', mapa) || (mapa.matches('iframe') ? mapa : null) : null;
+  // El mapa de Google pesa más que todo el sitio: se pide recién a 600px de entrar en pantalla.
+  if (iframeMapa && iframeMapa.dataset.src) {
+    const cargarMapa = () => {
+      iframeMapa.src = iframeMapa.dataset.src;
+      iframeMapa.hidden = false;
+    };
+    if (hayObserver) {
+      const vigiaMapa = new IntersectionObserver(entradas => {
+        if (!entradas[entradas.length - 1].isIntersecting) return;
+        vigiaMapa.disconnect();
+        cargarMapa();
+      }, { rootMargin: '600px 0px' });
+      vigiaMapa.observe(mapa);
+    } else {
+      cargarMapa();
+    }
+  }
+
   if (iframeMapa) {
     const marco = iframeMapa === mapa ? mapa.parentElement : mapa;
     window.addEventListener('blur', () => {
