@@ -1194,26 +1194,21 @@ h3 { font-size: var(--fs-h3); }
 }
 
 /* 11. La zona (localidades) =============================================== */
-/* Foto de fondo oscurecida, panel de vidrio, etiqueta con línea y lista con guiones */
-.zona {
+/* Tarjeta oscura sobre el fondo claro: foto oscurecida, etiqueta con línea y lista con guiones */
+.zona { padding-block: 48px; background: var(--fondo); }
+
+.zona__tarjeta {
   position: relative;
   isolation: isolate;
-  /* Con 120px como mínimo, el panel nunca cae sobre el degradado de la foto */
-  padding-block: clamp(120px, 10vw, 128px);
+  width: min(1360px, 100% - 2 * clamp(16px, 3vw, 40px));
+  margin-inline: auto;
   overflow: hidden;
-  /* Detrás del fundido: el color de la sección de arriba y el de la de abajo */
-  background: linear-gradient(180deg, var(--fondo) 120px, var(--blanco) calc(100% - 120px));
+  border-radius: 28px;
+  background: var(--carbon);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .18);
 }
 
-/* La foto y su overlay se funden con las secciones vecinas en los primeros y últimos 120px */
-.zona__fondo {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 120px, #000 calc(100% - 120px), transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0, #000 120px, #000 calc(100% - 120px), transparent 100%);
-}
+.zona__fondo { position: absolute; z-index: -1; inset: 0; }
 
 .zona__img {
   position: absolute;
@@ -1223,28 +1218,15 @@ h3 { font-size: var(--fs-h3); }
   height: 100%;
   max-width: none;
   object-fit: cover;
-  filter: blur(3px) grayscale(40%) brightness(.7);
+  filter: blur(2px) grayscale(30%);
   transform: scale(1.03);   /* el desenfoque no deja bordes claros */
 }
 
-.zona__overlay { position: absolute; inset: 0; background: rgba(18, 19, 22, .8); }
+.zona__overlay { position: absolute; inset: 0; background: rgba(18, 19, 22, .82); }
 
-.zona__ancla { max-width: none; height: 0; margin: 0; }
+.zona .zona__ancla { max-width: none; height: 0; margin: 0; }
 
-.zona__panel {
-  padding: clamp(32px, 5vw, 64px);
-  border: 1px solid rgba(255, 255, 255, .08);
-  border-radius: 20px;
-  background: rgba(18, 19, 22, .85);
-}
-
-@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .zona__panel {
-    background: rgba(18, 19, 22, .45);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-  }
-}
+.zona__contenido { padding: clamp(32px, 6vw, 80px); }
 
 .zona__label {
   display: flex;
@@ -1322,7 +1304,7 @@ h3 { font-size: var(--fs-h3); }
 
 /* Desktop: 5 columnas de texto y 7 de ítems */
 @media (min-width: 64rem) {
-  .zona__panel { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--sp-4); }
+  .zona__contenido { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--sp-4); }
 
   .zona__texto { grid-column: 1 / 6; }
 
@@ -3030,14 +3012,13 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   .site-footer__legal { gap: 0 var(--sp-2); margin-top: 12px; padding-top: var(--sp-1); }
 }
 
-/* La zona en mobile: un desenfoque menos costoso */
+/* La zona en mobile */
 @media (max-width: 47.99rem) {
-  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .zona__panel {
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-    }
-  }
+  .zona { padding-block: 32px; }
+
+  .zona__tarjeta { border-radius: 20px; }
+
+  .zona__contenido { padding: 28px 20px; }
 }
 
 /* Con reduced-motion, sin barra de lectura */
