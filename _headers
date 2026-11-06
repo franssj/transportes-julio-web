@@ -1,5 +1,7 @@
 /*
-  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  # QUITAR AL PUBLICAR CON EL DOMINIO FINAL
+  X-Robots-Tag: noindex, nofollow
+  Strict-Transport-Security: max-age=31536000
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
