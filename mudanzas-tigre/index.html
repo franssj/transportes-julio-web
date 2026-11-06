@@ -259,41 +259,26 @@
     </section>
 
     <!-- LA ZONA -->
-    <section class="section section--white" aria-labelledby="titulo-zona">
+    <section class="zona" aria-labelledby="titulo-zona">
+      <!-- FOTO: camión cargando en la vereda. Se reemplaza pisando assets/img/servicio-mudanza.webp (1200×900). -->
+        <img class="zona__img" src="../assets/img/servicio-mudanza.webp" width="1200" height="900" loading="lazy" decoding="async" alt="">
+      <div class="zona__overlay"></div>
       <div class="container">
-        <div id="zona" class="section__header">
-          <div class="reveal">
-            <p class="section__label">La zona</p>
-            <h2 id="titulo-zona" class="section__title">Cómo organizamos los traslados en <strong class="kw">Tigre</strong></h2>
-            
-          </div>
-        </div>
-        <div class="alt-block">
-          <div class="alt-block__media reveal--left">
-        <!-- FOTO: Mercedes-Benz 1114 Saider. Se reemplaza pisando assets/img/hero-tigre.webp (1600×900). -->
-        <img class="alt-block__img" src="../assets/img/hero-tigre.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Camión Mercedes-Benz 1114 de Transportes Julio">
-          </div>
-          <div class="alt-block__body reveal--right">
-            <p class="zone-intro">Partimos desde Belén de Escobar. Por eso acordamos el día con su franja horaria antes de cada viaje.</p>
-          </div>
-        </div>
-        <div class="alt-block alt-block--reverse">
-          <div class="alt-block__media reveal--right">
-        <!-- FOTO: camión cargando en la vereda. Se reemplaza pisando assets/img/servicio-mudanza.webp (1200×900). -->
-        <img class="alt-block__img" src="../assets/img/servicio-mudanza.webp" width="1200" height="900" loading="lazy" decoding="async" alt="Camión de Transportes Julio cargando en la vereda, con un ayudante">
-          </div>
-          <div class="alt-block__body reveal--left">
-            <ul class="reasons">
-            <li class="reason">
-              <h3 class="reason__title">Edificios con consorcio</h3>
-              <p class="reason__text">Verificá qué días admite la administración. Consultá también si se puede reservar el ascensor.</p>
+        <div id="zona" class="section__header zona__ancla"></div>
+        <div class="zona__panel reveal">
+          <p class="zona__label">La zona</p>
+          <h2 id="titulo-zona" class="section__title zona__title">Cómo organizamos los traslados en <strong class="kw">Tigre</strong></h2>
+          <p class="zona__lead">Partimos desde Belén de Escobar. Por eso acordamos el día con su franja horaria antes de cada viaje.</p>
+          <ul class="zona__items" data-stagger>
+            <li class="zona__item">
+              <h3 class="zona__item-title">Edificios con consorcio</h3>
+              <p class="zona__item-text">Verificá qué días admite la administración. Consultá también si se puede reservar el ascensor.</p>
             </li>
-            <li class="reason">
-              <h3 class="reason__title">Estacionamiento</h3>
-              <p class="reason__text">Si hay poco lugar para detener el vehículo, avisanos. Así planificamos la carga.</p>
+            <li class="zona__item">
+              <h3 class="zona__item-title">Estacionamiento</h3>
+              <p class="zona__item-text">Si hay poco lugar para detener el vehículo, avisanos. Así planificamos la carga.</p>
             </li>
-            </ul>
-          </div>
+          </ul>
         </div>
       </div>
     </section>

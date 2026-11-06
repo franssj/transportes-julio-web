@@ -5,7 +5,7 @@
    Índice
     1. Fuentes y tokens        9. Servicios y adicionales  17. Preguntas
     2. Base                   10. Cómo trabajamos          18. Contacto
-    3. Tipografía             11. Bloques alternados       19. Footer
+    3. Tipografía             11. La zona (localidades)    19. Footer
     4. Layout y secciones     12. Franjas de foto          20. WhatsApp fijo
     5. Botones y links        13. Opiniones                21. Dato faltante
                               14. Cotizador y vista previa 22. Animaciones
@@ -670,16 +670,6 @@ h3 { font-size: var(--fs-h3); }
   .photo-band__img { top: -20%; height: 140%; will-change: transform; }
 }
 
-.about { padding-block: clamp(64px, 8vw, 96px); background: var(--blanco); }
-
-.about__grid { display: grid; gap: var(--sp-5); align-items: center; }
-
-.about__header { margin-bottom: var(--sp-2); }
-
-.about__title { font-size: var(--fs-h3); }
-
-.about__story { margin-bottom: var(--sp-2); color: var(--gris-texto); }
-
 /* 9. Servicios y adicionales =============================================== */
 /* Mobile: carrusel. Desde 48rem: grilla */
 .service-cards {
@@ -1150,13 +1140,10 @@ h3 { font-size: var(--fs-h3); }
 }
 
 /* Por qué elegirnos: 4 columnas de números; 2×2 debajo de 1024px, con líneas horizontales */
-.why { padding-block: clamp(56px, 7vw, 88px); }
+/* Separación de 48px con el párrafo de arriba (32px en mobile) */
+.why { padding-block: 48px clamp(56px, 7vw, 88px); }
 
-.why .section__header { margin-inline: auto; margin-bottom: var(--sp-5); text-align: center; }
-
-.why .section__label { justify-content: center; }
-
-.why__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.why__list { scroll-margin-top: var(--nav-offset); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 .why__item { position: relative; padding: var(--sp-3) 4px; text-align: center; }
 
@@ -1206,39 +1193,106 @@ h3 { font-size: var(--fs-h3); }
   .why__item:last-child { border-right: 0; }
 }
 
-/* 11. Bloques alternados =================================================== */
-/* Mobile: siempre la foto arriba y el texto abajo. Desktop: alternan de lado. */
-.alt-block { display: grid; gap: var(--bloque); align-items: center; }
-
-.alt-block + .alt-block { margin-top: clamp(48px, 7vw, 96px); }
-
-.alt-block__media {
-  aspect-ratio: 4 / 3;
+/* 11. La zona (localidades) =============================================== */
+/* Foto de fondo oscurecida, panel de vidrio, etiqueta con línea y lista con guiones */
+.zona {
+  position: relative;
+  isolation: isolate;
+  padding-block: clamp(72px, 10vw, 128px);
   overflow: hidden;
-  border-radius: 4px;
-  background: var(--borde);
+  background: var(--carbon);
 }
 
-.alt-block__img { width: 100%; height: 100%; object-fit: cover; }
-
-.alt-block__body { min-width: 0; }
-
-@media (min-width: 52rem) {
-  .alt-block { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 5vw, 72px); }
-  .alt-block--reverse .alt-block__media { order: 2; }
+.zona__img {
+  position: absolute;
+  z-index: -2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  filter: blur(2px);
+  transform: scale(1.03);   /* el desenfoque no deja bordes claros */
 }
 
-.reasons { display: grid; }
+.zona__overlay {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(18, 19, 22, .92) 0%, rgba(18, 19, 22, .78) 100%);
+}
 
-.reason { padding-block: var(--sp-3); border-top: 1px solid var(--borde); }
+.zona__ancla { max-width: none; height: 0; margin: 0; }
 
-.reason:last-child { border-bottom: 1px solid var(--borde); }
+.zona__panel {
+  padding: clamp(32px, 5vw, 64px);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 20px;
+  background: rgba(18, 19, 22, .85);
+}
 
-.reason__title { font-size: 1.25rem; font-weight: 600; line-height: 1.35; letter-spacing: -.005em; }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .zona__panel {
+    background: rgba(18, 19, 22, .45);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+}
 
-.reason__text { margin-top: var(--sp-1); color: var(--gris-texto); }
+.zona__label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: none;
+  margin-bottom: var(--sp-2);
+  color: var(--texto-oscuro);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
 
-.zone-intro { margin-bottom: var(--sp-3); color: var(--gris-texto); font-size: 1.125rem; }
+.zona__label::after { content: ""; flex: none; width: 40px; height: 1px; background: var(--amarillo); }
+
+.zona__title { color: var(--blanco); font-size: clamp(2.25rem, 1.7rem + 2.6vw, 3.5rem); line-height: 1.1; }
+
+.zona__title .kw { color: var(--amarillo); }
+
+.zona__lead { max-width: 60ch; margin-top: var(--sp-2); color: var(--texto-oscuro); }
+
+.zona__items {
+  display: grid;
+  column-gap: var(--sp-5);
+  margin-top: var(--sp-4);
+  border-top: 1px solid rgba(255, 255, 255, .08);
+}
+
+.zona__item {
+  position: relative;
+  padding: 20px 0 20px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+/* Guion amarillo fino */
+.zona__item::before {
+  content: "";
+  position: absolute;
+  top: calc(20px + .75em);
+  left: 0;
+  width: 16px;
+  height: 1px;
+  background: var(--amarillo);
+}
+
+.zona__item-title { color: var(--blanco); font-size: 1.0625rem; font-weight: 600; line-height: 1.5; letter-spacing: 0; }
+
+.zona__item-text { margin-top: .25rem; color: var(--texto-oscuro); font-size: .9375rem; line-height: 1.5; }
+
+@media (min-width: 64rem) {
+  .zona__items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* 12. Franjas de foto ====================================================== */
 .photo-band {
@@ -1875,6 +1929,7 @@ textarea.field__input { min-height: 96px; resize: vertical; }
 .zone-block__text { margin-top: .25rem; color: var(--gris-texto); font-size: .875rem; line-height: 1.4; }
 
 .zone-block__link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: .375rem;
@@ -2317,18 +2372,6 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   .extras { gap: var(--sp-3); margin-top: var(--sp-5); }
   .extras__list { gap: var(--sp-2); }
 
-  /* Bloques de foto y texto */
-  .alt-block { gap: var(--sp-2); }
-  .alt-block + .alt-block { margin-top: var(--sp-4); }
-  .alt-block__media { aspect-ratio: 16 / 10; max-height: 160px; width: 100%; }
-
-  /* El segundo bloque repite una foto que ya aparece en otra sección */
-  .alt-block--reverse .alt-block__media { display: none; }
-  .reason { padding-block: .75rem; }
-  .reason__title { font-size: 1.0625rem; }
-  .reason__text { margin-top: .125rem; font-size: .9375rem; line-height: 1.45; }
-  .zone-intro { margin-bottom: var(--sp-2); font-size: 1rem; }
-
   /* Franjas de foto */
   .photo-band { padding-block: var(--sp-6); }
   .photo-band__actions { margin-top: var(--sp-3); }
@@ -2392,8 +2435,6 @@ textarea.field__input { min-height: 96px; resize: vertical; }
 .about__texto { text-align: center; }
 
 .about .section__header { margin: 0 auto var(--sp-2); }
-
-.about .section__label { justify-content: center; color: var(--texto-oscuro); }
 
 .about .section__title { color: var(--blanco); }
 
@@ -2560,6 +2601,7 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   .empresa,
   .section--dark,
   .m-oscura,
+  .zona,
   .site-footer { position: relative; z-index: 1; margin-top: -28px; overflow: hidden; border-radius: 28px 28px 0 0; }
 
   .empresa .section--dark { margin-top: 0; overflow: visible; border-radius: 0; background: none; }
@@ -2588,6 +2630,7 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   .about__title,
   .extras__title,
   .photo-band__title,
+  .zona__title,
   #como-trabajamos .section__title { font-size: clamp(26px, 7.4vw, 28px); font-weight: 700; line-height: 1.15; letter-spacing: -.02em; }
 
   .section__lead { margin-top: .375rem; font-size: 1rem; }
@@ -2626,9 +2669,7 @@ textarea.field__input { min-height: 96px; resize: vertical; }
 
   .about__story { font-size: .9375rem; line-height: 1.5; }
 
-  .why { padding-block: var(--sp-4) var(--sp-5); }
-
-  .why .section__header { margin-bottom: var(--sp-1); }
+  .why { padding-block: 32px var(--sp-5); }
 
   .why__item { padding-block: var(--sp-2); }
 
@@ -2835,9 +2876,7 @@ textarea.field__input { min-height: 96px; resize: vertical; }
 
   .about__story { font-size: .875rem; line-height: 1.45; }
 
-  .why { padding-block: 12px 24px; }
-
-  .why .section__header { display: none; }
+  .why { padding-block: 32px 24px; }
 
   .why__item { padding: 12px 4px; }
 
@@ -2953,6 +2992,16 @@ textarea.field__input { min-height: 96px; resize: vertical; }
   .site-footer__inner { gap: 12px; }
 
   .site-footer__legal { gap: 0 var(--sp-2); margin-top: 12px; padding-top: var(--sp-1); }
+}
+
+/* La zona en mobile: un desenfoque menos costoso */
+@media (max-width: 47.99rem) {
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .zona__panel {
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+  }
 }
 
 /* Con reduced-motion, sin barra de lectura */

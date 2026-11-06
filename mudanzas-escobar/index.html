@@ -243,41 +243,26 @@
     </section>
 
     <!-- LA ZONA -->
-    <section class="section section--white" aria-labelledby="titulo-zona">
+    <section class="zona" aria-labelledby="titulo-zona">
+      <!-- FOTO: frente del local. Se reemplaza pisando assets/img/banda-cierre.webp (1920×800). -->
+        <img class="zona__img" src="../assets/img/banda-cierre.webp" width="1920" height="800" loading="lazy" decoding="async" alt="">
+      <div class="zona__overlay"></div>
       <div class="container">
-        <div id="zona" class="section__header">
-          <div class="reveal">
-            <p class="section__label">La zona</p>
-            <h2 id="titulo-zona" class="section__title">Trabajamos desde Belén de <strong class="kw">Escobar</strong></h2>
-            
-          </div>
-        </div>
-        <div class="alt-block">
-          <div class="alt-block__media reveal--left">
-        <!-- FOTO: Mercedes-Benz 1517 cargado en Belén de Escobar. Se reemplaza pisando assets/img/hero-escobar.webp (1600×900). -->
-        <img class="alt-block__img" src="../assets/img/hero-escobar.webp" width="1600" height="900" loading="lazy" decoding="async" alt="Camión Mercedes-Benz de Transportes Julio con carga en Belén de Escobar">
-          </div>
-          <div class="alt-block__body reveal--right">
-            <p class="zone-intro">Escobar es nuestra base de trabajo. Podés acercarte al local o escribirnos por WhatsApp.</p>
-          </div>
-        </div>
-        <div class="alt-block alt-block--reverse">
-          <div class="alt-block__media reveal--right">
-        <!-- FOTO: vidriera del local. Se reemplaza pisando assets/img/local-fachada.webp (1200×900). -->
-        <img class="alt-block__img" src="../assets/img/local-fachada.webp" width="1200" height="900" loading="lazy" decoding="async" alt="Vidriera del local de Transportes Julio, con el teléfono y la lista de servicios">
-          </div>
-          <div class="alt-block__body reveal--left">
-            <ul class="reasons">
-            <li class="reason">
-              <h3 class="reason__title">Barrios cerrados</h3>
-              <p class="reason__text">Antes de mudarte, consultá en la administración los requisitos de ingreso. Pedí también los horarios permitidos para vehículos de carga.</p>
+        <div id="zona" class="section__header zona__ancla"></div>
+        <div class="zona__panel reveal">
+          <p class="zona__label">La zona</p>
+          <h2 id="titulo-zona" class="section__title zona__title">Trabajamos desde Belén de <strong class="kw">Escobar</strong></h2>
+          <p class="zona__lead">Escobar es nuestra base de trabajo. Podés acercarte al local o escribirnos por WhatsApp.</p>
+          <ul class="zona__items" data-stagger>
+            <li class="zona__item">
+              <h3 class="zona__item-title">Barrios cerrados</h3>
+              <p class="zona__item-text">Antes de mudarte, consultá en la administración los requisitos de ingreso. Pedí también los horarios permitidos para vehículos de carga.</p>
             </li>
-            <li class="reason">
-              <h3 class="reason__title">Calles de acceso</h3>
-              <p class="reason__text">Si la calle es angosta o de tierra, avisanos al pedir el presupuesto. Así elegimos el vehículo adecuado.</p>
+            <li class="zona__item">
+              <h3 class="zona__item-title">Calles de acceso</h3>
+              <p class="zona__item-text">Si la calle es angosta o de tierra, avisanos al pedir el presupuesto. Así elegimos el vehículo adecuado.</p>
             </li>
-            </ul>
-          </div>
+          </ul>
         </div>
       </div>
     </section>
