@@ -1886,6 +1886,23 @@ textarea.field__input { min-height: 96px; resize: vertical; }
 
 .section--dark .chip { border-color: var(--grafito); color: var(--texto-oscuro); }
 
+/* Política de privacidad */
+.legal { padding-block: calc(var(--header-full) + var(--sp-5)) var(--section-y); background: var(--blanco); }
+
+.legal__inner { max-width: 45rem; }
+
+.legal__title { font-size: var(--fs-h2); }
+
+.legal__date { margin-top: var(--sp-1); color: var(--gris-texto); font-size: var(--fs-sm); }
+
+.legal__subtitle { margin-top: var(--sp-4); margin-bottom: var(--sp-1); font-size: 1.25rem; font-weight: 600; letter-spacing: 0; }
+
+.legal p + p { margin-top: var(--sp-1); }
+
+.legal__list { margin-top: var(--sp-1); padding-left: 1.25rem; list-style: disc; }
+
+.legal__list li + li { margin-top: .25rem; }
+
 /* 16. Franjas sólidas ====================================================== */
 .quote-band {
   display: flex;

@@ -56,7 +56,7 @@
   var indicador = document.getElementById('cotizador-progress');
   var textoProgreso = document.getElementById('cotizador-progress-text');
   var nombrePaso = document.getElementById('cotizador-progress-name');
-  var notaPrecio = document.getElementById('cotizador-nota-precio');
+  var notas = document.getElementById('cotizador-notas');
   var camion = null;
   var enviando = false;
   var preview = document.getElementById('cotizador-preview');
@@ -283,7 +283,7 @@
     if (btnAtras) btnAtras.hidden = pasoActual === 1;
     if (btnSiguiente) btnSiguiente.hidden = pasoActual === TOTAL_PASOS;
     if (btnEnviar) btnEnviar.hidden = pasoActual !== TOTAL_PASOS;
-    if (notaPrecio) notaPrecio.hidden = pasoActual !== TOTAL_PASOS;
+    if (notas) notas.hidden = pasoActual !== TOTAL_PASOS;
 
     if (indicador) {
       indicador.setAttribute('aria-valuenow', String(pasoActual));

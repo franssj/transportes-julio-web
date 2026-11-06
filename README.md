@@ -8,6 +8,7 @@ HTML, CSS y JavaScript vanilla. Sin build, sin dependencias, sin backend.
 index.html                     Home (Escobar y Tigre)
 mudanzas-escobar/index.html    Página de Escobar
 mudanzas-tigre/index.html      Página de Tigre
+privacidad/index.html          Política de privacidad
 css/styles.css                 Todos los estilos (índice al principio del archivo)
 js/camion.js                   Lógica del camión, compartida por los dos caminos. Se carga primero
 js/main.js                     Header, fila de links, animaciones, parallax, ruta, horarios, WhatsApp fijo
