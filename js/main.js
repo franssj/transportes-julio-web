@@ -9,6 +9,10 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  // Sin un listener de touchstart, iOS Safari no aplica :active al tocar (lo usan los links con flecha y los botones).
+  // Es pasivo y vacío: no frena el scroll.
+  document.addEventListener('touchstart', () => {}, { passive: true });
+
   /* HORARIOS: todos los textos visibles se cambian acá, en un solo lugar. Cada página los toma con
      data-horario. El horario del local también figura en openingHoursSpecification, en el JSON-LD de cada HTML. */
   const HORARIOS = {
