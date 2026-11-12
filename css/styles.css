@@ -59,6 +59,7 @@
   /* Tipografía */
   --fuente: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --ease-flecha: cubic-bezier(.22, 1, .36, 1);
+  --dur-flecha: 600ms;
   --fuente-titulos: "Barlow Semi Condensed", "Barlow respaldo", "Arial Narrow", sans-serif;
 
   /* Barlow es angosta: sus tamaños se agrandan sobre el valor original. 1 = aumento completo, 0 = tamaño original */
@@ -369,7 +370,7 @@ h3 { font-size: calc(var(--fs-h3) * var(--k, 1)); }
   border-radius: 4px;
   background: var(--carbon);
   color: var(--blanco);
-  transition: color 350ms var(--ease-flecha);
+  transition: color var(--dur-flecha) var(--ease-flecha);
 }
 
 /* Relleno amarillo del cuadrado: crece de izquierda a derecha y vuelve al revés */
@@ -381,26 +382,10 @@ h3 { font-size: calc(var(--fs-h3) * var(--k, 1)); }
   background: var(--amarillo);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 350ms var(--ease-flecha);
+  transition: transform var(--dur-flecha) var(--ease-flecha);
 }
 
-.arrow-link__icon { width: 16px; height: 16px; transition: transform 350ms var(--ease-flecha); }
-
-/* Línea amarilla debajo del texto */
-.arrow-link__box + span { position: relative; }
-
-.arrow-link__box + span::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: -2px;
-  left: 0;
-  height: 2px;
-  background: var(--amarillo);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 350ms var(--ease-flecha);
-}
+.arrow-link__icon { width: 16px; height: 16px; transition: transform var(--dur-flecha) var(--ease-flecha); }
 
 /* Sobre fondos oscuros, el cuadrado se separa del fondo con un borde */
 .hero .arrow-link,
@@ -412,16 +397,14 @@ h3 { font-size: calc(var(--fs-h3) * var(--k, 1)); }
 /* Mouse, teclado y, en pantallas táctiles, al tocar */
 .arrow-link:focus-visible .arrow-link__box { color: var(--carbon); }
 
-.arrow-link:focus-visible .arrow-link__box::before,
-.arrow-link:focus-visible .arrow-link__box + span::after { transform: scaleX(1); }
+.arrow-link:focus-visible .arrow-link__box::before { transform: scaleX(1); }
 
 .arrow-link:focus-visible .arrow-link__icon { transform: translateX(3px); }
 
 @media (hover: hover) {
   .arrow-link:hover .arrow-link__box { color: var(--carbon); }
 
-  .arrow-link:hover .arrow-link__box::before,
-  .arrow-link:hover .arrow-link__box + span::after { transform: scaleX(1); }
+  .arrow-link:hover .arrow-link__box::before { transform: scaleX(1); }
 
   .arrow-link:hover .arrow-link__icon { transform: translateX(3px); }
 }
@@ -429,8 +412,7 @@ h3 { font-size: calc(var(--fs-h3) * var(--k, 1)); }
 @media (hover: none) {
   .arrow-link:active .arrow-link__box { color: var(--carbon); }
 
-  .arrow-link:active .arrow-link__box::before,
-  .arrow-link:active .arrow-link__box + span::after { transform: scaleX(1); }
+  .arrow-link:active .arrow-link__box::before { transform: scaleX(1); }
 
   .arrow-link:active .arrow-link__icon { transform: translateX(3px); }
 }
