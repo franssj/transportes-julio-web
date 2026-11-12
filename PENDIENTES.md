@@ -15,7 +15,6 @@
 | Marca visible | Dónde está | Qué se necesita |
 |---|---|---|
 | `[[NOMBRE_TITULAR]]` | `privacidad/index.html`: Responsable | Nombre del titular de la empresa |
-| `[[CUIT]]` | `privacidad/index.html`: Responsable | CUIT del titular |
 | `[[FECHA_PUBLICACION]]` | `privacidad/index.html`: debajo del título | Fecha de publicación de la política |
 
 ## Dominio y URL final: `[[URL_WEB]]`
