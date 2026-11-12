@@ -1,6 +1,7 @@
 /* =====================================================================
    FLETES Y MUDANZAS JULIO · estilos
-   Mobile-first. Carbón, blanco, amarillo de marca solo donde corresponde e Inter.
+   Mobile-first. Carbón, blanco, amarillo de marca solo donde corresponde.
+   Títulos en Barlow Semi Condensed; el resto del texto, en Inter.
 
    Índice
     1. Fuentes y tokens        9. Servicios y adicionales  17. Preguntas
@@ -10,15 +11,29 @@
     5. Botones y links        13. Opiniones                21. Dato faltante
                               14. Cotizador y vista previa 22. Animaciones
     7. Header y menú          15. Zonas                    23. Pantallas bajas
-    8. Hero y quiénes somos                                24. Movimiento reducido
+    8. Hero y quiénes somos                                24. Títulos en Barlow
+                                                           25. Movimiento reducido
    ===================================================================== */
 
 /* 1. Fuentes y tokens ===================================================== */
-@font-face { font-family: "Inter"; font-style: normal; font-weight: 300; font-display: swap; src: url("../assets/fonts/inter-300.woff2") format("woff2"); }
 @font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: swap; src: url("../assets/fonts/inter-400.woff2") format("woff2"); }
 @font-face { font-family: "Inter"; font-style: normal; font-weight: 500; font-display: swap; src: url("../assets/fonts/inter-500.woff2") format("woff2"); }
 @font-face { font-family: "Inter"; font-style: normal; font-weight: 600; font-display: swap; src: url("../assets/fonts/inter-600.woff2") format("woff2"); }
 @font-face { font-family: "Inter"; font-style: normal; font-weight: 700; font-display: swap; src: url("../assets/fonts/inter-700.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Semi Condensed"; font-style: normal; font-weight: 600; font-display: swap; src: url("../assets/fonts/barlow-semi-condensed-600.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Semi Condensed"; font-style: normal; font-weight: 700; font-display: swap; src: url("../assets/fonts/barlow-semi-condensed-700.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Semi Condensed"; font-style: italic; font-weight: 700; font-display: swap; src: url("../assets/fonts/barlow-semi-condensed-700-italic.woff2") format("woff2"); }
+
+/* Respaldo mientras carga Barlow: Arial Bold ajustada al ancho y la altura de Barlow 600, para que el texto no salte */
+@font-face {
+  font-family: "Barlow respaldo";
+  font-weight: 600 700;
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Helvetica Neue Bold"), local("Roboto Bold"), local("Roboto-Bold");
+  size-adjust: 81.8%;
+  ascent-override: 122.3%;
+  descent-override: 24.5%;
+  line-gap-override: 0%;
+}
 
 :root {
   /* Paleta */
@@ -43,6 +58,7 @@
 
   /* Tipografía */
   --fuente: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fuente-titulos: "Barlow Semi Condensed", "Barlow respaldo", "Arial Narrow", sans-serif;
   --fs-h1: clamp(2.5rem, 1.75rem + 3.6vw, 4.25rem);
   --fs-h2: clamp(1.625rem, 1.5rem + .6vw, 1.875rem);
   --fs-h3: clamp(1.375rem, 1.25rem + .6vw, 1.75rem);
@@ -592,12 +608,10 @@ h3 { font-size: var(--fs-h3); }
 .hero__title {
   font-size: clamp(1.875rem, 8.4vw, 2.375rem);
   color: var(--blanco);
-  font-weight: 300;
   line-height: 1.1;
-  letter-spacing: -.025em;
 }
 
-.hero__title strong { color: var(--amarillo); font-weight: 700; }
+.hero__title strong { color: var(--amarillo); }
 
 .hero__title::after {
   content: "";
@@ -3170,7 +3184,44 @@ main > .photo-band--cierre,
   .barra-lectura { display: none; }
 }
 
-/* 24. Movimiento reducido ================================================== */
+/* 24. Títulos en Barlow =================================================== */
+/* Va al final para ganarle a los pesos de cada sección. Footer, botones, menú, formulario y chips siguen en Inter */
+h1,
+h2,
+h3,
+.hero__title,
+.section__title,
+.section--dark .section__title,
+.photo-band__title,
+.extras__title,
+.legal__title,
+.legal__subtitle,
+.service-card__title,
+.fleet-card__title,
+.contact-item__title,
+.zona__item-title,
+.zona__localidades-title,
+.zone-block__title,
+.cotizador-step__title,
+.cotizador__preview-title,
+.step__title,
+#como-trabajamos .section__title {
+  font-family: var(--fuente-titulos);
+  font-weight: 600;
+  letter-spacing: -.005em;
+}
+
+/* Palabra clave del título */
+.kw,
+.hero__title strong { font-weight: 700; font-style: italic; }
+
+/* Números de la franja y de Cómo trabajamos */
+.why__num,
+.step__number { font-family: var(--fuente-titulos); font-weight: 700; letter-spacing: -.005em; }
+
+.site-footer__title { font-family: var(--fuente); }
+
+/* 25. Movimiento reducido ================================================== */
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }

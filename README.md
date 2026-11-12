@@ -14,7 +14,7 @@ js/camion.js                   Lógica del camión, compartida por los dos camin
 js/main.js                     Header, fila de links, animaciones, parallax, ruta, horarios, WhatsApp fijo
 js/cotizador.js                Formulario de 5 pasos y mensaje de WhatsApp
 assets/img/                    Fotos y logo: se reemplazan pisando el archivo
-assets/fonts/                  Inter 300, 400, 500, 600 y 700 en woff2, con su licencia (SIL OFL, en OFL.txt)
+assets/fonts/                  Inter 400, 500, 600 y 700 (texto) y Barlow Semi Condensed 600, 700 y 700 itálica (títulos), en woff2, con su licencia (SIL OFL, en OFL.txt)
 robots.txt, sitemap.xml        Con [[URL_WEB]]
 PENDIENTES.md                  Lo que falta confirmar o conseguir
 ```

@@ -1,4 +1,6 @@
 Copyright (c) 2016 The Inter Project Authors (https://github.com/rsms/inter)
+Copyright 2017 The Barlow Project Authors (https://github.com/jpt/barlow)
+(Barlow Semi Condensed: barlow-semi-condensed-600, -700 y -700-italic)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
