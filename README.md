@@ -83,6 +83,8 @@ Cada imagen es un solo archivo y se reemplaza **pisándolo con el mismo nombre**
 
 **Logo:** header, `assets/img/logo-header.webp`, con `logo-header.png` de respaldo, de 708×300 (64px de alto en desktop, 52px al scrollear, 56px de 1024 a 1279px, 52px en tablet, 44px en mobile); footer, `assets/img/logo-completo.webp`, con `logo-completo.png` de respaldo, de 342×480 y 600×842 (120px de alto, 96px en mobile). `assets/img/logo.png` queda para el JSON-LD. Se reemplazan pisando el archivo y tienen que leerse sobre carbón (`#121316`).
 
+**Tipografía:** los títulos, los números de la franja y los de "Cómo trabajamos" van en Barlow Semi Condensed. El resto del texto sigue en Inter. Por ser angosta, sus tamaños se agrandan con `--display-scale` (en `:root` de `styles.css`): 1 aplica el aumento completo y 0 vuelve al tamaño original. El aumento es de 20% en el h1, 15% en los h2 y los números, y 12% en los h3 y los títulos de las tarjetas.
+
 **Redacción:** como máximo una "y" por oración, una idea por oración de 8 a 20 palabras, sin repetir la misma palabra en oraciones seguidas, voseo profesional, sin adjetivos vacíos ni exclamaciones. Las opiniones de clientes son textuales y no se tocan.
 
 ## 5. Sumar una localidad
