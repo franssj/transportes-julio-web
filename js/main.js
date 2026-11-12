@@ -299,10 +299,31 @@
         fijarHeader();   // este ajuste puede ser hacia arriba: no tiene que volver a abrir el header
         destino.scrollIntoView({ behavior: 'instant', block: 'start' });
       };
+      // Después de ubicar, la página todavía se acomoda: el header se compacta, las secciones con
+      // content-visibility pasan a su alto real y el navegador reajusta el scroll. Durante 2 s se
+      // vuelve a ubicar el destino si se corrió. Si la persona toca, scrollea o usa el teclado, se corta.
+      const mantener = () => {
+        const fin = performance.now() + 2000;
+        let cortado = false;
+        const cortar = () => { cortado = true; };
+        const eventos = ['wheel', 'touchstart', 'pointerdown', 'keydown'];
+        eventos.forEach(ev => window.addEventListener(ev, cortar, { once: true, passive: true }));
+        const revisar = () => {
+          if (cortado || performance.now() > fin) {
+            eventos.forEach(ev => window.removeEventListener(ev, cortar));
+            return;
+          }
+          const objetivo = parseFloat(getComputedStyle(destino).scrollMarginTop) || 0;
+          if (Math.abs(destino.getBoundingClientRect().top - objetivo) > 1) ubicar();
+          window.requestAnimationFrame(revisar);
+        };
+        window.requestAnimationFrame(revisar);
+      };
       // Después del primer pintado: recién ahí se piden las fuentes, y fonts.ready espera a que lleguen.
       despuesDelPintado(() => {
-        if (document.fonts) document.fonts.ready.then(ubicar);
-        else ubicar();
+        const empezar = () => { ubicar(); mantener(); };
+        if (document.fonts) document.fonts.ready.then(empezar);
+        else empezar();
       });
     });
   }
