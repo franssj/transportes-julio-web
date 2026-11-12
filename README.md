@@ -130,7 +130,6 @@ Activá HSTS recién cuando HTTPS funcione en el dominio y en todos sus subdomin
 
 ## 9. Antes de publicar
 
-- Pedir a Julio el link directo para dejar una opinión, desde su Perfil de Empresa: hoy "Dejanos tu opinión" abre la ficha.
 - Evaluar si se actualiza el nombre de la ficha de Google, que figura como "Fletes y Mudanzas Julio".
 - La nota (4,5) y las opiniones (64) están escritas a mano: si cambian en Google, actualizarlas en hero, Por qué elegirnos, Opiniones y JSON-LD.
 - Revisar que no se lean patentes ni caras de terceros en las fotos.
