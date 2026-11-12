@@ -663,7 +663,7 @@ h3 { font-size: calc(var(--fs-h3) * var(--k, 1)); }
 
 @media (min-width: 48rem) {
   .hero { min-height: 100vh; min-height: 100dvh; padding-block: calc(var(--header-full) + var(--sp-6)) var(--sp-7); }
-  .hero__title { max-width: 17ch; font-size: calc(var(--fs-h1) * var(--k, 1)); }
+  .hero__title { max-width: 24ch; font-size: calc(var(--fs-h1) * var(--k, 1)); }
 }
 
 @media (min-width: 60rem) {
@@ -3232,7 +3232,12 @@ h2,
 #como-trabajamos .section__title { --k: var(--k-h2); font-weight: 700; line-height: 1.05; }
 
 /* h1 del hero */
-.hero__title { --k: var(--k-h1); font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.hero__title { --k: var(--k-h1); font-weight: 700; line-height: 1.05; letter-spacing: 0; text-wrap: balance; }
+
+/* Mobile: el interlineado de 1,05 suma .05em por línea; con 3 líneas, se compensa arriba para que el hero no cambie de alto */
+@media (max-width: 47.99rem) {
+  .hero__title { margin-top: -.15em; }
+}
 
 /* h3 y títulos de las tarjetas */
 h3,
