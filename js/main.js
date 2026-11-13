@@ -9,7 +9,7 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-  // Sin un listener de touchstart, iOS Safari no aplica :active al tocar (lo usan los links con flecha y los botones).
+  // Sin un listener de touchstart, iOS Safari no aplica :active al tocar (lo usan los botones).
   // Es pasivo y vacío: no frena el scroll.
   document.addEventListener('touchstart', () => {}, { passive: true });
 

@@ -394,7 +394,7 @@ h3 { font-size: calc(var(--fs-h3) * var(--k, 1)); }
 .hero .arrow-link__box,
 .photo-band .arrow-link__box { border: 1px solid rgba(255, 255, 255, .6); }
 
-/* Mouse, teclado y, en pantallas táctiles, al tocar */
+/* Solo con mouse o teclado: en pantallas táctiles no se anima */
 .arrow-link:focus-visible .arrow-link__box { color: var(--carbon); }
 
 .arrow-link:focus-visible .arrow-link__box::before { transform: scaleX(1); }
@@ -407,14 +407,6 @@ h3 { font-size: calc(var(--fs-h3) * var(--k, 1)); }
   .arrow-link:hover .arrow-link__box::before { transform: scaleX(1); }
 
   .arrow-link:hover .arrow-link__icon { transform: translateX(3px); }
-}
-
-@media (hover: none) {
-  .arrow-link:active .arrow-link__box { color: var(--carbon); }
-
-  .arrow-link:active .arrow-link__box::before { transform: scaleX(1); }
-
-  .arrow-link:active .arrow-link__icon { transform: translateX(3px); }
 }
 
 /* Con reduced-motion: el color cambia de golpe, sin llenado ni desplazamiento */
@@ -430,12 +422,6 @@ h3 { font-size: calc(var(--fs-h3) * var(--k, 1)); }
   .arrow-link:hover .arrow-link__box { background: var(--amarillo); }
 
   .arrow-link:hover .arrow-link__icon { transform: none; }
-}
-
-@media (prefers-reduced-motion: reduce) and (hover: none) {
-  .arrow-link:active .arrow-link__box { background: var(--amarillo); }
-
-  .arrow-link:active .arrow-link__icon { transform: none; }
 }
 
 /* 7. Header y menú ========================================================= */
